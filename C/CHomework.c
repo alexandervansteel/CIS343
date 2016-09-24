@@ -2,7 +2,8 @@
 #include <stdlib.h>
 
 int FillTable(int a[], int max){
-  for(int i=0;i<=max;i++){
+  int i;
+  for(i=0;i<=max;i++){
     a[i] = i;
   }
 }
@@ -13,7 +14,7 @@ void PrintReverseTable(int a[], int max){
   }
 }
 
-int int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) {
   int table[100];
   FillTable(table,10);
   PrintReverseTable(table,10);
