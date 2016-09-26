@@ -13,11 +13,15 @@ typedef ELEMENT * LINK;
 
 // function prototypes/declarations
 LINK create_list(int [], int);
+
+// declarations of functions
 int count_items(LINK);
 void print_list(LINK);
 
-int maiin() {
+int main() {
+  // creates array of ints and fills it.
   int a[] = {5,10,15,20,25,30};
+  // instantiates LINK head and then makes it into a list.
   LINK head;
   head = create_list(a,6);
   printf("The linked list has %d elements.\n",count_items(head));
