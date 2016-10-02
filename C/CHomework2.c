@@ -2,13 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-void open_file(FILE*, char*);
-int column1(char[]*, int*);
-int lable_length(char[]*, int*);
-int column89(char[]*, int*);
-int illegal_op_code(char[]*, int*);
-int operand(char[]*, int*);
+#include <fcntl.h>
 
 /*
  * Auther: Alexander Vansteel
@@ -27,7 +21,8 @@ int main(int argc, char *argv[]){
   printf("Enter the name of the file to scan: ");
   fgets(file_name,sizeof(file_name),stdin);
 
-  open_file(&fp, &file_name);
+  open_file(*fp, &file_name);
+
   while(fgets(line, sizeof(line),file_name)){
     first_error = column1(&line, &error_cnt);
     if(first_error == 0){
@@ -40,16 +35,13 @@ int main(int argc, char *argv[]){
       first_error = illegal_op_code(&line, &error_cnt);
     }
     if(first_error == 0){
-      first_error = op_code_column(&line, &error_cnt);
-    }
-    if(first_error == 0){
       first_error = operand(&line, &error_cnt);
     }
     if(first_error == 0){
       printf("%s\nNo errors detected in line.\n");
     }
   }
-  fclose(&fp);
+  fclose(fp);
   printf("End of Processing - %d errors encountered.\n", error_cnt);
   return 0;
 }
@@ -61,7 +53,7 @@ int main(int argc, char *argv[]){
  * Outputs: void
  * Error Handling: open()
  */
-void open_file(FILE* fp, char* file_name){
+void open_file(FILE *fp, char *file_name){
   int f;
   if((f = open(file_name, O_RDONLY)) < 0){
     perror("open error");
@@ -77,7 +69,7 @@ void open_file(FILE* fp, char* file_name){
  * Outputs: int
  * Error Handling: checks for character, space or *
  */
-int column1(char[] *line, *int error_cnt){
+int column1(char (*line)[500], int *error_cnt){
   if(!(isalpha(line[0]) | (strcmp(line[0]," ") == 0) |
       (strcmp(line[0],"*") == 0))){
     printf("%s\nThe first column contains an error.\n");
@@ -96,13 +88,13 @@ int column1(char[] *line, *int error_cnt){
  * Outputs: int
  * Error Handling: all upper case, length less than 8
  */
- int lable_length(char[]* line, int* error_cnt){
+ int lable_length(char (*line)[500], int *error_cnt){
   if(isalpha(line[0])){
     int i;
     /* Checks that all characters in Lable are upper case. */
     for(i=0;i<7;i++){
       if(isspace(line[i]) == 0){
-        if(isupper(line[i] == 0){
+        if(isupper(line[i]) == 0){
           printf("%s\nLable Error: All characters must be upper case.\n",line);
           error_cnt++;
           return 1;
@@ -120,8 +112,7 @@ int column1(char[] *line, *int error_cnt){
 
     /* Checks that Lable is not longer than 7 characters. */
     if(isspace(line[7]) == 0){
-      printf("%s\nLable Error:
-                  Lable exceeds maximum length of 7 characters.\n", line);
+      printf("%s\nLable Error: Lable exceeds maximum length of 7 characters.\n", line);
       error_cnt++;
       return 1;
     }
@@ -137,7 +128,7 @@ int column1(char[] *line, *int error_cnt){
  * Outputs: int
  * Error Handling: column 8 or 9 is not a space
  */
-int column89(char[]* line, int* error_cnt){
+int column89(char (*line), int *error_cnt){
   if((strcmp(line[7]," ") != 0) | (strcmp(line[8], " ") != 0)){
     printf("%s\nInvalid character in column 8 or 9.\n", line);
     error_cnt++;
@@ -156,14 +147,14 @@ int column89(char[]* line, int* error_cnt){
 *                 an invalid Op-code
 *                 any character after Op-code
 */
-int illegal_op_code(char[]* line, int*error_cnt){
+int illegal_op_code(char (*line)[500], int *error_cnt){
+  int i;
+
   if(isspace(line[0])){
-    int i;
     /* Verifies the first 10 coloumns are empty if the line is an Op-code. */
     for(i=0;i<10;i++){
       if(isspace(line[i]) == 0){
-        printf("%s\nThere is an illegal character in
-                    the first 10 coloumns of the Op-code.\n",line);
+        printf("%s\nThere is an illegal character in the first 10 coloumns of the Op-code.\n",line);
         error_cnt++;
         return 1;
       }
@@ -175,7 +166,7 @@ int illegal_op_code(char[]* line, int*error_cnt){
   * character in it.
   */
   if(isspace(line[9]) == 0){
-    for(i=9;i<sizeof(line):i++){
+    for(i=9;i<sizeof(line);i++){
       // op char 1
       if((i=9) && (strcmp(line[i],"D") != 0)){
         printf("%s\nInvalid Op-code: Check first character.\n", line);
@@ -213,7 +204,7 @@ int illegal_op_code(char[]* line, int*error_cnt){
         error_cnt++;
         return 1;
       }
-      if((i = 15) && (isspace(line[i]) == 0){
+      if((i = 15) && (isspace(line[i]) == 0)){
         printf("%s\nInvalid character after Op-code.", line);
         error_cnt++;
         return 1;
@@ -224,13 +215,12 @@ int illegal_op_code(char[]* line, int*error_cnt){
   /* Verifies that there is no Op-code.*/
   for(i=9;i<15;i++){
     if(isspace(line[i]) == 0){
-      printf("%s\nCharacter found in Op-code column when
-                  none were expected.\n", line);
+      printf("%s\nCharacter found in Op-code column when none were expected.\n", line);
       error_cnt++;
       return 1;
+    } else {
+      return 0;
     }
-  } else {
-    return 0;
   }
 }
 
@@ -241,7 +231,7 @@ int illegal_op_code(char[]* line, int*error_cnt){
 * Outputs: int
 * Error Handling: non-space character in column earlier than 16
 */
-int operand(char[]* line, int* error_cnt){
+int operand(char (*line)[500], int *error_cnt){
   if(isspace(line[0]) != 0){
     int i;
     for(i=0;i<sizeof(line);i++){
