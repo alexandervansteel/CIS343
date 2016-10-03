@@ -10,21 +10,21 @@
  * Due Date: 2016 October 3
  */
 int main(int argc, char *argv[]){
-  char file_name[10], line[500];
-  FILE *fp = NULL;
-  int error_cnt = 0;
-  int first_error = 0;
-
+  char file_name[100], line[100];
+  FILE *fp;
+  int *error_cnt;
+  
   memset(file_name, 0, sizeof(file_name));
   memset(line, 0, sizeof(line));
 
   printf("Enter the name of the file to scan: ");
   fgets(file_name,sizeof(file_name),stdin);
 
-  open_file(*fp, &file_name);
+  printf("File name: \n");
+  open_file(&fp, &file_name);
 
-  while(fgets(line, sizeof(line),file_name)){
-    first_error = column1(&line, &error_cnt);
+  while(fgets(line, sizeof(line),fp)){
+    int first_error = column1(&line, &error_cnt);
     if(first_error == 0){
       first_error = lable_length(&line, &error_cnt);
     }
@@ -42,6 +42,7 @@ int main(int argc, char *argv[]){
     }
   }
   fclose(fp);
+
   printf("End of Processing - %d errors encountered.\n", error_cnt);
   return 0;
 }
@@ -54,8 +55,8 @@ int main(int argc, char *argv[]){
  * Error Handling: open()
  */
 void open_file(FILE *fp, char *file_name){
-  int f;
-  if((f = open(file_name, O_RDONLY)) < 0){
+  fp = fopen(file_name, "r");
+  if(fp == NULL){
     perror("open error");
   } else {
     printf("Opening file: %s\n", file_name);
@@ -231,7 +232,7 @@ int illegal_op_code(char (*line)[500], int *error_cnt){
 * Outputs: int
 * Error Handling: non-space character in column earlier than 16
 */
-int operand(char (*line)[500], int *error_cnt){
+int operand(char (*line)[100], int *error_cnt){
   if(isspace(line[0]) != 0){
     int i;
     for(i=0;i<sizeof(line);i++){
