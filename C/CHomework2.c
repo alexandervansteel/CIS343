@@ -10,7 +10,8 @@
  * Due Date: 2016 October 3
  */
 int main(int argc, char *argv[]){
-  char file_name[100], line[100];
+  char file_name[100];
+  char line[100];
   FILE *fp;
   int *error_cnt;
   
@@ -23,7 +24,7 @@ int main(int argc, char *argv[]){
   printf("File name: \n");
   open_file(&fp, &file_name);
 
-  while(fgets(line, sizeof(line),fp)){
+  while(fgets(line, 100,fp) != NULL){
     int first_error = column1(&line, &error_cnt);
     if(first_error == 0){
       first_error = lable_length(&line, &error_cnt);
