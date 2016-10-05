@@ -5,6 +5,13 @@
 #include <fcntl.h>
 
 int check_file(char *file_name);
+/*
+int column1(char *line, int *error_cnt);
+int label_length(char *line, int *error_cnt);
+int column89(char *line, int *error_cnt);
+int illegal_op_code(char *line, int *error_cnt);
+int operand(char *line, int *error_cnt);
+*/
 
 /*
  * Auther: Alexander Vansteel
