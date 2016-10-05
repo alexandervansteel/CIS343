@@ -61,7 +61,7 @@ int check_file(char *file_name){
     int error_cnt;
     char no_errors[] = "No errors detected in this line.\n";
 
-    int first_error = column1(&line, &error_cnt);
+    int first_error = column1(&line, &error_cnt, cpf);
     if(first_error == 0){
       first_error = lable_length(&line, &error_cnt, cpf);
     }
