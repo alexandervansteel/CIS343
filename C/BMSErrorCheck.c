@@ -63,7 +63,7 @@ int check_file(char *file_name){
 
     int first_error = column1(line, &error_cnt, cfp);
     if(first_error == 0){
-      first_error = lable_length(line, &error_cnt, cfp);
+      first_error = label_length(line, &error_cnt, cfp);
     }
     if(first_error == 0){
       first_error = column89(line, &error_cnt, cfp);
