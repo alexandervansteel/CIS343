@@ -5,13 +5,11 @@
 #include <fcntl.h>
 
 int check_file(char *file_name);
-/*
-int column1(char *line, int *error_cnt);
-int label_length(char *line, int *error_cnt);
-int column89(char *line, int *error_cnt);
-int illegal_op_code(char *line, int *error_cnt);
-int operand(char *line, int *error_cnt);
-*/
+int column1(char *line, int *error_cnt, FILE *cfp);
+int label_length(char *line, int *error_cnt, FILE *cfp);
+int column89(char *line, int *error_cnt, FILE *cfp);
+int illegal_op_code(char *line, int *error_cnt, FILE *cfp);
+int operand(char *line, int *error_cnt, FILE *cfp);
 
 /*
 * Auther: Alexander Vansteel
@@ -31,6 +29,13 @@ int main(int argc, char *argv[]){
   return 0;
 }
 
+/*
+ * Author: Alexander Vansteel
+ * Purpose: Opens file
+ * Inputs: FILE*, char[]*
+ * Outputs: void
+ * Error Handling: opening requested file, creating correction file
+ */
 int check_file(char *file_name){
   FILE *fp;
   char line[500];
@@ -53,8 +58,52 @@ int check_file(char *file_name){
   }
 
   while(fgets(line,100,fp) != NULL){
-    printf("%s",line);
+    int error_cnt;
+    char no_errors[] = "No errors detected in this line.\n";
+
+    int first_error = column1(&line, &error_cnt);
+    if(first_error == 0){
+      first_error = lable_length(&line, &error_cnt, cpf);
+    }
+    if(first_error == 0){
+      first_error = column89(&line, &error_cnt, cpf);
+    }
+    if(first_error == 0){
+      first_error = illegal_op_code(&line, &error_cnt, cpf);
+    }
+    if(first_error == 0){
+      first_error = operand(&line, &error_cnt, cpf);
+    }
+    if(first_error == 0){
+      fwrite(line, 1, sizeof(line), cfp);
+    }
   }
+
+  return 0;
+}
+
+int column1(char *line, int *error_cnt, FILE *cfp){
+  fwrite(line, 1, sizeof(line), cfp);
+
+  return 0;
+}
+int label_length(char *line, int *error_cnt, FILE *cfp){
+  fwrite(line, 1, sizeof(line), cfp);
+
+  return 0;
+}
+int column89(char *line, int *error_cnt, FILE *cfp){
+  fwrite(line, 1, sizeof(line), cfp);
+
+  return 0;
+}
+int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
+  fwrite(line, 1, sizeof(line), cfp);
+
+  return 0;
+}
+int operand(char *line, int *error_cnt, FILE *cfp){
+  fwrite(line, 1, sizeof(line), cfp);
 
   return 0;
 }
