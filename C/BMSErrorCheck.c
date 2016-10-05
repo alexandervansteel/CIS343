@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <fcntl.h>
 
-int open_file(char *file_name);
+int check_file(char *file_name);
 
 /*
  * Auther: Alexander Vansteel
@@ -16,23 +16,27 @@ int open_file(char *file_name);
 
     memset(file_name,0,sizeof(file_name));
     printf("Enter the name of the file to scan: ");
-    fgets(file_name,sizeof(file_name),stdin);
+    //fgets(file_name,sizeof(file_name),stdin);
+	scanf("%s", file_name);
 
-    if(open_file(file_name) != 0){
-      perror("open_file error");
-      return 1;
-    }
+	printf("Requested file name: %s\n", file_name);
+    check_file(file_name);
     return 0;
  }
 
- int open_file(char *file_name){
+ int check_file(char *file_name){
     FILE *fp;
+	char line[500];
 
     if((fp = fopen(file_name, "r")) == NULL){
-        perror("File name error\n");
+        perror("File name error");
         return 1;
-    } else {
-        printf("Opening requested file: %s\n", file_name);
     }
+    
+	printf("Opening requested file: %s\n", file_name);
+	while(fgets(line,100,fp) != NULL){
+		printf("%s",line);
+	}
+
     return 0;
  }
