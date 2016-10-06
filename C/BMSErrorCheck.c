@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
  */
 int check_file(char *file_name){
   FILE *fp;
-  char* line = (char*)malloc(100);
+  char f_line[100];
 
   if((fp = fopen(file_name, "r")) == NULL){
     perror("File name error");
@@ -57,9 +57,10 @@ int check_file(char *file_name){
     return 1;
   }
 
-  while(fgets(line,100,fp) != NULL){
+  while(fgets(f_line,100,fp) != NULL){
     int error_cnt;
     char no_errors[] = "No errors detected in this line.\n";
+    char *line = f_line;
 
     int first_error = column1(line, &error_cnt, cfp);
     if(first_error == 0){

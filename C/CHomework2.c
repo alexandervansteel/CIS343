@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
   char line[100];
   FILE *fp;
   int *error_cnt;
-  
+
   memset(file_name, 0, sizeof(file_name));
   memset(line, 0, sizeof(line));
 
@@ -182,7 +182,7 @@ int illegal_op_code(char (*line)[500], int *error_cnt){
         return 1;
       }
       //op char 3
-      if((i=11) && ((strcmp(line[i],"H") != 0) | (strcmp(line[i],"M") != 0))){
+      if((i=11) && ((strcmp(line[i],"H") != 0))){
         printf("%s\nInvalid Op-code: Check third character.\n",line);
         error_cnt++;
         return 1;
