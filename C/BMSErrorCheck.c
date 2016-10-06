@@ -75,7 +75,7 @@ int check_file(char *file_name){
       first_error = operand(line, &error_cnt, cfp);
     }
     if(first_error == 0){
-      fprintf(cfp, "%s\n", line);
+      fprintf(cfp, "%s", line);
     }
   }
 
@@ -83,27 +83,27 @@ int check_file(char *file_name){
 }
 
 int column1(char *line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s\n", line);
+  //fprintf(cfp, "%s", line);
 
   return 0;
 }
 int label_length(char *line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s\n", line);
+  //fprintf(cfp, "%s", line);
 
   return 0;
 }
 int column89(char *line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s\n", line);
+  //fprintf(cfp, "%s", line);
 
   return 0;
 }
 int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s\n", line);
+  //fprintf(cfp, "%s", line);
 
   return 0;
 }
 int operand(char *line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s\n", line);
+  //fprintf(cfp, "%s", line);
 
   return 0;
 }
