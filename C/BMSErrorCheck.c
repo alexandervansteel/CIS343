@@ -64,44 +64,102 @@ int check_file(char *file_name){
     int first_error = column1(line, &error_cnt, cfp);
     if(first_error == 0){
       first_error = label_length(line, &error_cnt, cfp);
+      if(error_cnt == 0){
+        fprintf(cfp, "%s\n", no_errors);
+      }
     }
     if(first_error == 0){
       first_error = column89(line, &error_cnt, cfp);
+      if(error_cnt == 0){
+        fprintf(cfp, "%s\n", no_errors);
+      }
     }
     if(first_error == 0){
       first_error = illegal_op_code(line, &error_cnt, cfp);
+      if(error_cnt == 0){
+        fprintf(cfp, "%s\n", no_errors);
+      }
     }
     if(first_error == 0){
       first_error = operand(line, &error_cnt, cfp);
+      if(error_cnt == 0){
+        fprintf(cfp, "%s\n", no_errors);
+      }
     }
     if(first_error == 0){
       fprintf(cfp, "%s", line);
+      fprintf(cfp, "%s\n", no_errors);
     }
   }
 
   return 0;
 }
 
+/*
+ * Author: Alexander Vansteel
+ * Purpose:
+ * Inputs: char*, int*, FILE*
+ * Outputs: int
+ * Error Handling:
+ */
 int column1(char *line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s", line);
-
-  return 0;
+  if(!(isalpha(line[0]) | (strcmp(line[0]," ") == 0) |
+      (strcmp(line[0],"*") == 0))){
+    printf("%s\nThe first column contains an error.\n");
+    error_cnt++;
+    return 1;
+  } else {
+    fprintf(cfp, "%s", line);
+    return 0;
+  }
 }
+
+/*
+ * Author: Alexander Vansteel
+ * Purpose:
+ * Inputs: char*, int*, FILE*
+ * Outputs: int
+ * Error Handling:
+ */
 int label_length(char *line, int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
 }
+
+/*
+ * Author: Alexander Vansteel
+ * Purpose:
+ * Inputs: char*, int*, FILE*
+ * Outputs: int
+ * Error Handling:
+ */
 int column89(char *line, int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
 }
+
+/*
+ * Author: Alexander Vansteel
+ * Purpose:
+ * Inputs: char*, int*, FILE*
+ * Outputs: int
+ * Error Handling:
+ */
 int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
 }
+
+/*
+ * Author: Alexander Vansteel
+ * Purpose:
+ * Inputs: char*, int*, FILE*
+ * Outputs: int
+ * Error Handling:
+ */
 int operand(char *line, int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
