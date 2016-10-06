@@ -103,8 +103,8 @@ int check_file(char *file_name){
  * Error Handling:
  */
 int column1(char *line, int *error_cnt, FILE *cfp){
-  if(!(isalpha(line[0]) | (strcmp(line[0]," ") == 0) |
-      (strcmp(line[0],"*") == 0))){
+  if(!(isalpha(*line[0]) | (strcmp(*line[0]," ") == 0) |
+      (strcmp(*line[0],"*") == 0))){
     printf("%s\nThe first column contains an error.\n");
     error_cnt++;
     return 1;
