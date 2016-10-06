@@ -52,7 +52,7 @@ int check_file(char *file_name){
   strcat(c_file, file_name);
   printf("Error Correction File: %s\n",c_file);
   FILE *cfp;
-  if((cfp = fopen(c_file, "a")) == NULL){
+  if((cfp = fopen(c_file, "r")) == NULL){
     perror("Error creating correction file.");
     return 1;
   }
