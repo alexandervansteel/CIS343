@@ -117,11 +117,11 @@ int column1(char *line, int *error_cnt, FILE *cfp){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char[], int*, FILE*
+ * Inputs: char*, int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int label_length(char line[], int *error_cnt, FILE *cfp){
+int label_length(char *line, int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
@@ -130,11 +130,11 @@ int label_length(char line[], int *error_cnt, FILE *cfp){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char[], int*, FILE*
+ * Inputs: char, int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int column89(char line[], int *error_cnt, FILE *cfp){
+int column89(char line, int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
@@ -143,11 +143,11 @@ int column89(char line[], int *error_cnt, FILE *cfp){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char[], int*, FILE*
+ * Inputs: char, int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int illegal_op_code(char line[], int *error_cnt, FILE *cfp){
+int illegal_op_code(char line, int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
