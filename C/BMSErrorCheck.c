@@ -87,13 +87,13 @@ int check_file(char *file_name){
         fprintf(cfp, "%s\n", no_errors);
       }
     }
+    */
     if(first_error == 0){
       fprintf(cfp, "%s", line);
       fprintf(cfp, "%s\n", no_errors);
     }
-    */
   }
-
+  printf("File check complete.");
   return 0;
 }
 
@@ -106,12 +106,11 @@ int check_file(char *file_name){
  */
 int column1(char *line, int *error_cnt, FILE *cfp){
   if( (isalpha(line[0]) == 0) | (line[0] != " ") | (line[0] != "*") ){
-    fprintf(cfp, "%s", line);
-    return 1;
+    return 0;
   } else {
     fprintf(cfp,"%sThe first column contains an error.\n",line);
     error_cnt++;
-    return 0;
+    return 1;
   }
 }
 
