@@ -106,11 +106,11 @@ int check_file(char *file_name){
  */
 int column1(char *line, int *error_cnt, FILE *cfp){
   if( (isalpha(line[0]) == 0) | (line[0] != " ") | (line[0] != "*") ){
-    fprintf(cfp,"%sThe first column contains an error.\n",line);
-    error_cnt++;
+    fprintf(cfp, "%s", line);
     return 1;
   } else {
-    fprintf(cfp, "%s", line);
+    fprintf(cfp,"%sThe first column contains an error.\n",line);
+    error_cnt++;
     return 0;
   }
 }
