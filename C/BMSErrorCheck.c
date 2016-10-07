@@ -61,7 +61,11 @@ int check_file(char *file_name){
     int error_cnt;
     char no_errors[] = "No errors detected in this line.\n";
 
-    int first_error = column1(line, &error_cnt, cfp);
+    char *lp = malloc(sizeof(line));
+    strcpy(lp, line);
+
+    int first_error = column1(lp, &error_cnt, cfp);
+    /*
     if(first_error == 0){
       first_error = label_length(line, &error_cnt, cfp);
       if(error_cnt == 0){
@@ -90,6 +94,7 @@ int check_file(char *file_name){
       fprintf(cfp, "%s", line);
       fprintf(cfp, "%s\n", no_errors);
     }
+    */
   }
 
   return 0;
@@ -98,12 +103,11 @@ int check_file(char *file_name){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char[], int*, FILE*
+ * Inputs: char*, int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int column1(char line[], int *error_cnt, FILE *cfp){
-
+int column1(char *line, int *error_cnt, FILE *cfp){
   if(!(isalpha(line[0]) | (strcmp(line[0]," ") == 0) |
       (strcmp(line[0],"*") == 0))){
     printf("%s\nThe first column contains an error.\n");
