@@ -39,6 +39,7 @@ int main(int argc, char *argv[]){
 int check_file(char *file_name){
   FILE *fp;
   char f_line[100];
+  char *lp = f_line;
 
   if((fp = fopen(file_name, "r")) == NULL){
     perror("File name error");
@@ -62,7 +63,7 @@ int check_file(char *file_name){
     char no_errors[] = "No errors detected in this line.\n";
     char *line = f_line;
 
-    int first_error = column1(line, &error_cnt, cfp);
+    int first_error = column1(lp, &error_cnt, cfp);
     if(first_error == 0){
       first_error = label_length(line, &error_cnt, cfp);
       if(error_cnt == 0){
