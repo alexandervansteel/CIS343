@@ -104,7 +104,7 @@ int check_file(char *file_name){
  * Outputs: int
  * Error Handling:
  */
-int column1(char line[100], int *error_cnt, FILE *cfp){
+int column1(char line[], int *error_cnt, FILE *cfp){
   if(!(isalpha(line[0]) | (strcmp(line[0]," ") == 0) |
       (strcmp(line[0],"*") == 0))){
     printf("%s\nThe first column contains an error.\n");
