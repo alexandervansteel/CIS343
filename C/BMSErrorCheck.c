@@ -5,11 +5,11 @@
 #include <fcntl.h>
 
 int check_file(char *file_name);
-int column1(char *line, int *error_cnt, FILE *cfp);
-int label_length(char *line, int *error_cnt, FILE *cfp);
-int column89(char *line, int *error_cnt, FILE *cfp);
-int illegal_op_code(char *line, int *error_cnt, FILE *cfp);
-int operand(char *line, int *error_cnt, FILE *cfp);
+int column1(char line[], int *error_cnt, FILE *cfp);
+int label_length(char line[], int *error_cnt, FILE *cfp);
+int column89(char line[], int *error_cnt, FILE *cfp);
+int illegal_op_code(char line[], int *error_cnt, FILE *cfp);
+int operand(char line[], int *error_cnt, FILE *cfp);
 
 /*
 * Auther: Alexander Vansteel
@@ -38,8 +38,7 @@ int main(int argc, char *argv[]){
  */
 int check_file(char *file_name){
   FILE *fp;
-  char f_line[100];
-  char *lp = f_line;
+  char line[100];
 
   if((fp = fopen(file_name, "r")) == NULL){
     perror("File name error");
@@ -58,12 +57,11 @@ int check_file(char *file_name){
     return 1;
   }
 
-  while(fgets(f_line,100,fp) != NULL){
+  while(fgets(line,100,fp) != NULL){
     int error_cnt;
     char no_errors[] = "No errors detected in this line.\n";
-    char *line = f_line;
 
-    int first_error = column1(lp, &error_cnt, cfp);
+    int first_error = column1(line, &error_cnt, cfp);
     if(first_error == 0){
       first_error = label_length(line, &error_cnt, cfp);
       if(error_cnt == 0){
@@ -100,11 +98,11 @@ int check_file(char *file_name){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char*, int*, FILE*
+ * Inputs: char[], int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int column1(char *line, int *error_cnt, FILE *cfp){
+int column1(char line[], int *error_cnt, FILE *cfp){
 
   if(!(isalpha(line[0]) | (strcmp(line[0]," ") == 0) |
       (strcmp(line[0],"*") == 0))){
@@ -120,11 +118,11 @@ int column1(char *line, int *error_cnt, FILE *cfp){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char*, int*, FILE*
+ * Inputs: char[], int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int label_length(char *line, int *error_cnt, FILE *cfp){
+int label_length(char line[], int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
@@ -133,11 +131,11 @@ int label_length(char *line, int *error_cnt, FILE *cfp){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char*, int*, FILE*
+ * Inputs: char[], int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int column89(char *line, int *error_cnt, FILE *cfp){
+int column89(char line[], int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
@@ -146,11 +144,11 @@ int column89(char *line, int *error_cnt, FILE *cfp){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char*, int*, FILE*
+ * Inputs: char[], int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
+int illegal_op_code(char line[], int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
@@ -159,11 +157,11 @@ int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char*, int*, FILE*
+ * Inputs: char[], int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int operand(char *line, int *error_cnt, FILE *cfp){
+int operand(char line[], int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
