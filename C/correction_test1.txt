@@ -1,0 +1,81 @@
+LOSMATT  DFHMSD TYPE=MAP,                                              X
+No errors detected in this line.
+
+               MODE=INOUT,                                             X
+No errors detected in this line.
+
+               TIOAPFX=YES,                                            X
+No errors detected in this line.
+
+               TERM=3270-2,                                            X
+No errors detected in this line.
+
+               LANG=COBOL,                                             X
+No errors detected in this line.
+
+               MAPATTS=(COLOR,HILIGHT),                                X
+No errors detected in this line.
+
+               DSATTS=(COLOR,HILIGHT),                                 X
+No errors detected in this line.
+
+               STORAGE=AUTO,                                           X
+No errors detected in this line.
+
+               CTRL=(FREEKB,FRSET)
+No errors detected in this line.
+
+*
+No errors detected in this line.
+
+LOSATT   DFHMDI SIZE=(24,80),                                          X
+No errors detected in this line.
+
+               LINE=1,                                                 X
+No errors detected in this line.
+
+               COLUMN=1
+No errors detected in this line.
+
+*
+No errors detected in this line.
+
+LSSTDII  DFHMDF POS=(1,01),                                            X
+No errors detected in this line.
+
+               LENGTH=04,                                              X
+No errors detected in this line.
+
+               COLOR=BLUE,                                             X
+No errors detected in this line.
+
+               INITIAL='MQCM',                                         X
+No errors detected in this line.
+
+               ATTRB=PROT
+No errors detected in this line.
+
+*
+No errors detected in this line.
+
+         DFHMDF POS=(24,01),                                           X
+No errors detected in this line.
+
+               LENGTH=79,                                              X
+No errors detected in this line.
+
+               COLOR=BLUE,                                             X
+No errors detected in this line.
+
+               ATTRB=ASKIP
+No errors detected in this line.
+
+*                                                                       
+No errors detected in this line.
+
+         DFHMSD TYPE=FINAL                                           
+No errors detected in this line.
+
+         END
+No errors detected in this line.
+
