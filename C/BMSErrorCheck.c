@@ -59,38 +59,26 @@ int check_file(char *file_name){
 
   while(fgets(line,100,fp) != NULL){
     int error_cnt;
-    char no_errors[] = "No errors detected in this line.\n";
 
     int first_error = column1(line, &error_cnt, cfp);
-    /*
+    
     if(first_error == 0){
       first_error = label_length(line, &error_cnt, cfp);
-      if(error_cnt == 0){
-        fprintf(cfp, "%s\n", no_errors);
-      }
     }
+    
     if(first_error == 0){
       first_error = column89(line, &error_cnt, cfp);
-      if(error_cnt == 0){
-        fprintf(cfp, "%s\n", no_errors);
-      }
     }
+    /*
     if(first_error == 0){
       first_error = illegal_op_code(line, &error_cnt, cfp);
-      if(error_cnt == 0){
-        fprintf(cfp, "%s\n", no_errors);
-      }
     }
     if(first_error == 0){
       first_error = operand(line, &error_cnt, cfp);
-      if(error_cnt == 0){
-        fprintf(cfp, "%s\n", no_errors);
-      }
     }
     */
     if(first_error == 0){
       fprintf(cfp, "%s", line);
-      fprintf(cfp, "%s\n", no_errors);
     }
   }
   printf("File check complete.");
@@ -99,10 +87,10 @@ int check_file(char *file_name){
 
 /*
  * Author: Alexander Vansteel
- * Purpose:
+ * Purpose: Check the first column of each line for valid character
  * Inputs: char*, int*, FILE*
  * Outputs: int
- * Error Handling:
+ * Error Handling: none
  */
 int column1(char *line, int *error_cnt, FILE *cfp){
   if( (isalpha(line[0]) == 0) | (line[0] != " ") | (line[0] != "*") ){
@@ -116,12 +104,67 @@ int column1(char *line, int *error_cnt, FILE *cfp){
 
 /*
  * Author: Alexander Vansteel
+ * Purpose: If the line starts with a label, verify the length and upper case
+ * Inputs: char*, int*, FILE*
+ * Outputs: int
+ * Error Handling: label is all upper, invalid space inside label, label length
+ */
+int label_length(char *line, int *error_cnt, FILE *cfp){
+  if (isalpha(line[0])){
+    int i;
+    // Checks that all characters in Lable are upper case.
+    for(i=0;i<7;i++){
+      if(isspace(line[i])==0){
+        if(isupper(line[i])==0){
+          fprintf(cfp, "%slabel Error: All characters must beupper case.\n",line);
+          error_cnt++;
+          return 1;
+        }
+      } else { // Checks for a space in the lable
+        for(i;i<7;i++){
+          if(isspace(line[i])==0){
+            fprintf(cfp,"%sLabel Error: There is an invalid space in the Label.\n",line);
+            error_cnt++;
+            return 1;
+          }
+        }
+      }
+    }
+    
+    // Checks that the Label is not longer than 7 characters.
+    if(isspace(line[7])==0){
+      fprintf(cfp,"%sLabel error: Label exceeds maximum length of 7 characters.\n",line);
+      error_cnt++;
+      return 1;
+    }
+  }
+  return 0;
+}
+
+/*
+ * Author: Alexander Vansteel
+ * Purpose: Checks columns 8 and 9 to ensure they are always spaces
+ * Inputs: char*, int*, FILE*
+ * Outputs: int
+ * Error Handling: invalid character in column 8 or 9
+ */
+int column89(char *line, int *error_cnt, FILE *cfp){
+  if( (isspace(line[7]) == 0) | (isspace(line[8]) == 0)){
+    fprintf(cfp,"%sInvalid character in column 8 or 9. Must be a space.\n",line);
+    error_cnt++;
+    return 1;
+  }
+  return 0;
+}
+
+/*
+ * Author: Alexander Vansteel
  * Purpose:
  * Inputs: char*, int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int label_length(char *line, int *error_cnt, FILE *cfp){
+int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
@@ -130,37 +173,11 @@ int label_length(char *line, int *error_cnt, FILE *cfp){
 /*
  * Author: Alexander Vansteel
  * Purpose:
- * Inputs: char, int*, FILE*
+ * Inputs: char*, int*, FILE*
  * Outputs: int
  * Error Handling:
  */
-int column89(char line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s", line);
-
-  return 0;
-}
-
-/*
- * Author: Alexander Vansteel
- * Purpose:
- * Inputs: char, int*, FILE*
- * Outputs: int
- * Error Handling:
- */
-int illegal_op_code(char line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s", line);
-
-  return 0;
-}
-
-/*
- * Author: Alexander Vansteel
- * Purpose:
- * Inputs: char[], int*, FILE*
- * Outputs: int
- * Error Handling:
- */
-int operand(char line[], int *error_cnt, FILE *cfp){
+int operand(char *line, int *error_cnt, FILE *cfp){
   //fprintf(cfp, "%s", line);
 
   return 0;
