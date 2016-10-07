@@ -105,11 +105,9 @@ int check_file(char *file_name){
  * Error Handling:
  */
 int column1(char *line, int *error_cnt, FILE *cfp){
-  char fline[100];
-  strcpy(fline,line);
-
-  if(!((isalpha(fline[0]) != 0) | (strcmp(fline[0]," ") == 0) |
-      (strcmp(fline[0],"*") == 0))){
+  printf("%c\n",line[0]);
+  if(!((isalpha(line[0]) != 0) | (strcmp(line[0]," ") == 0) |
+      (strcmp(line[0],"*") == 0))){
     fprintf(cfp,"%sThe first column contains an error.\n",line);
     error_cnt++;
     return 1;
