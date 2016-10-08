@@ -209,43 +209,43 @@ int column89(char *line, int *error_cnt, FILE *cfp){
 int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
   if(isspace(line[0]) | isalpha(line[0])){
     // op char 1
-    if(line[10] != "D"){
+    if(strcmp(line[9],"D") != 0){
       fprintf(cfp, "%sInvalid Op-code: Character 1.\n", line);
       error_cnt++;
       return 1;
     }
     // op char 2
-    if(line[11] != "F"){
+    if(line[10] != "F"){
       fprintf(cfp, "%sInvalid Op-code: Character 2.\n", line);
       error_cnt++;
       return 1;
     }
     // op char 3
-    if(line[12] != "M"){
+    if(line[11] != "M"){
       fprintf(cfp, "%sInvalid Op-code: Character 3.\n", line);
       error_cnt++;
       return 1;
     }
     // op char 4
-    if(line[13] != "H"){
+    if(line[12] != "H"){
       fprintf(cfp, "%sInvalid Op-code: Character 4.\n", line);
       error_cnt++;
       return 1;
     }
     // op char 5
-    if((line[14] != "D") | (line[14] != "S")){
+    if((line[13] != "D") | (line[13] != "S")){
       fprintf(cfp, "%sInvalid Op-code: Character 5.\n", line);
       error_cnt++;
       return 1;
     }
     // op char 6
-    if((line[15] != "D") | (line[15] != "F") | (line[15] != "I")){
+    if((line[14] != "D") | (line[14] != "F") | (line[14] != "I")){
       fprintf(cfp, "%sInvalid Op-code: Expecting space.\n", line);
       error_cnt++;
       return 1;
     }
     // checks for space after op code
-    if(isspace(line[16]) == 0){
+    if(isspace(line[15]) == 0){
       fprintf(cfp, "%sInvalid Op-code: Space expected after 6 digit Op-code.\n", line);
       error_cnt++;
       return 1;
