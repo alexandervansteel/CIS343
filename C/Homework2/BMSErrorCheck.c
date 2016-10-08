@@ -88,7 +88,7 @@ int check_file(char *file_name){
       first_error = illegal_op_code(line, &error_cnt, &op_code, cfp);
     }
     if((first_error == 0) && (end_call == 0) && (op_code == 0)){
-      first_error = operand(line, &error_cnt, cfp);
+      //first_error = operand(line, &error_cnt, cfp);
     }
     if((first_error == 0) && (end_call == 0)){
       fprintf(cfp, "%s", line);
