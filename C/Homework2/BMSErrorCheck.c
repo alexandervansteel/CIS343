@@ -212,37 +212,37 @@ int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
     for(i=9;i<70;i++){
       // op char 1
       if((i=9) && (line[i] != "D")){
-        fprintf(cfp, "%sInvalid Op-code\n", line);
+        fprintf(cfp, "%sInvalid Op-code: Character 1.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 2
       if((i=10) && (line[i] != "F")){
-        fprintf(cfp, "%sInvalid Op-code\n", line);
+        fprintf(cfp, "%sInvalid Op-code: Character 2.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 3
       if((i=11) && (line[i] != "M")){
-        fprintf(cfp, "%sInvalid Op-code\n", line);
+        fprintf(cfp, "%sInvalid Op-code: Character 3.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 4
       if((i=12) && (line[i] != "H")){
-        fprintf(cfp, "%sInvalid Op-code\n", line);
+        fprintf(cfp, "%sInvalid Op-code: Character 4.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 5
       if((i=13) && ((line[i] != "D") | (line[i] != "S"))){
-        fprintf(cfp, "%sInvalid Op-code\n", line);
+        fprintf(cfp, "%sInvalid Op-code: Character 5.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 6
       if((i=14) && ((line[i] != "D") | (line[i] != "F") | (line[i] != "I"))){
-        fprintf(cfp, "%sInvalid Op-code\n", line);
+        fprintf(cfp, "%sInvalid Op-code: Expecting space.\n", line);
         error_cnt++;
         return 1;
       }
