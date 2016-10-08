@@ -295,7 +295,8 @@ int operand(char *line, int *error_cnt, FILE *cfp){
   if(isspace(line[0]) != 0){
     for(i=0;i<70;i++){
       if((i<16) && (isspace(line[i]) == 0)){
-        fprintf(cfp,"%sInvalid operand: Character in column %d is invalid.\n",line,i+1);
+        fprintf(cfp,"%sInvalid operand: ",line);
+        fprintf(cfp,"Character in column %d is invalid.\n",i+1);
         error_cnt++;
         return 1;
       }
