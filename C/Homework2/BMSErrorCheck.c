@@ -9,7 +9,7 @@ int column1(char line[], int *error_cnt, FILE *cfp);
 int label_length(char line[], int *error_cnt, FILE *cfp);
 int column89(char line[], int *error_cnt, FILE *cfp);
 int end_called(char *line, int *error_cnt, int *end_call, FILE *cfp);
-int illegal_op_code(char line[], int *error_cnt, int *op_code, FILE *cfp);
+int illegal_op_code(char line[], int *error_cnt, FILE *cfp);
 int operand(char line[], int *error_cnt, FILE *cfp);
 
 /*
@@ -59,10 +59,8 @@ int check_file(char *file_name){
   }
 
   int error_cnt;
-  int op_code;
   int end_call = 0;
   while(fgets(line,100,fp) != NULL){
-    op_code = 0;
     if(end_call == 1){
       int i;
       for(i=0;i<71;i++){
@@ -85,9 +83,9 @@ int check_file(char *file_name){
       first_error = end_called(line, &error_cnt, &end_call, cfp);
     }
     if((first_error == 0) && (end_call == 0)){
-      first_error = illegal_op_code(line, &error_cnt, &op_code, cfp);
+      first_error = illegal_op_code(line, &error_cnt, cfp);
     }
-    if((first_error == 0) && (end_call == 0) && (op_code == 0)){
+    if((first_error == 0) && (end_call == 0)){
       //first_error = operand(line, &error_cnt, cfp);
     }
     if((first_error == 0) && (end_call == 0)){
@@ -190,8 +188,11 @@ int column89(char *line, int *error_cnt, FILE *cfp){
        }
      }
    }
-
-   if((line[9] == "E") && (line[10] == "N") && (line[11] == "D")){
+   char *end_string = "END";
+   char *end_line;
+   strncpy(end_line,&line[9],4);
+   end_line[4] = '\0';
+   if(strcmp(end_line,end_string) == 0){
      end_call = 1;
    }
 
@@ -210,12 +211,12 @@ int column89(char *line, int *error_cnt, FILE *cfp){
 int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
   char *line_op;
   if(isspace(line[0]) | isalpha(line[0])){
-    char *op1 = "DFHMDI ";
-    char *op2 = "DFHMDF ";
-    char *op3 = "DFHMSD ";
+    char *op1 = "DFHMDI";
+    char *op2 = "DFHMDF";
+    char *op3 = "DFHMSD";
 
     if(isspace(line[9]) == 0){
-        strncpy(line_op, &line[9], 7);
+      strncpy(line_op, &line[9], 7);
       printf("%s\n", line_op);
       if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
         fprintf(cfp, "%sInvalid Op-code.\n", line);
@@ -223,50 +224,6 @@ int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
         return 1;
       }
     }
-    /*
-    // op char 1
-    if(line[9] != op1[0]){
-      fprintf(cfp, "%sInvalid Op-code: Character 1.\n", line);
-      error_cnt++;
-      return 1;
-    }
-    // op char 2
-    if(line[10] != "F"){
-      fprintf(cfp, "%sInvalid Op-code: Character 2.\n", line);
-      error_cnt++;
-      return 1;
-    }
-    // op char 3
-    if(line[11] != "M"){
-      fprintf(cfp, "%sInvalid Op-code: Character 3.\n", line);
-      error_cnt++;
-      return 1;
-    }
-    // op char 4
-    if(line[12] != "H"){
-      fprintf(cfp, "%sInvalid Op-code: Character 4.\n", line);
-      error_cnt++;
-      return 1;
-    }
-    // op char 5
-    if((line[13] != "D") | (line[13] != "S")){
-      fprintf(cfp, "%sInvalid Op-code: Character 5.\n", line);
-      error_cnt++;
-      return 1;
-    }
-    // op char 6
-    if((line[14] != "D") | (line[14] != "F") | (line[14] != "I")){
-      fprintf(cfp, "%sInvalid Op-code: Expecting space.\n", line);
-      error_cnt++;
-      return 1;
-    }
-    // checks for space after op code
-    if(isspace(line[15]) == 0){
-      fprintf(cfp, "%sInvalid Op-code: Space expected after 6 digit Op-code.\n", line);
-      error_cnt++;
-      return 1;
-    }
-    */
   }
   op_code = 1;
   return 0;
