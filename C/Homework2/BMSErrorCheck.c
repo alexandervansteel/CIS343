@@ -9,7 +9,7 @@ int column1(char line[], int *error_cnt, FILE *cfp);
 int label_length(char line[], int *error_cnt, FILE *cfp);
 int column89(char line[], int *error_cnt, FILE *cfp);
 int end_called(char *line, int *error_cnt, int *end_call, FILE *cfp);
-int illegal_op_code(char line[], int *error_cnt, FILE *cfp);
+int illegal_op_code(char line[], int *error_cnt, int *op_code, FILE *cfp);
 int operand(char line[], int *error_cnt, FILE *cfp);
 
 /*
@@ -59,8 +59,18 @@ int check_file(char *file_name){
   }
 
   int error_cnt;
+  int op_code;
   int end_call = 0;
   while(fgets(line,100,fp) != NULL){
+    if(end_call == 1){
+      int i;
+      for(i=0;i<71;i++){
+        if(isspace(line[i]) == 0){
+          fprintf(cfp, "%sInvalid character after END.", line);
+        }
+      }
+    }
+
     int first_error = column1(line, &error_cnt, cfp);
 
     if((first_error == 0) && (end_call == 0)){
@@ -73,14 +83,12 @@ int check_file(char *file_name){
     if((first_error == 0) && (end_call == 0)){
       first_error = end_called(line, &error_cnt, &end_call, cfp);
     }
-    /*
     if((first_error == 0) && (end_call == 0)){
-      first_error = illegal_op_code(line, &error_cnt, cfp);
+      first_error = illegal_op_code(line, &error_cnt, &op_code, cfp);
     }
-    if((first_error == 0) && (end_call == 0)){
+    if((first_error == 0) && (end_call == 0) && (op_code == 0)){
       first_error = operand(line, &error_cnt, cfp);
     }
-    */
     if((first_error == 0) && (end_call == 0)){
       fprintf(cfp, "%s", line);
     }
@@ -171,7 +179,7 @@ int column89(char *line, int *error_cnt, FILE *cfp){
  */
  int end_called(char *line, int *error_cnt, int *end_call, FILE *cfp){
    // Verifies first 10 coloums are empty if the line does not begin with a * or label
-   if(isspace(line[0]) == 0){
+   if(isspace(line[0]) != 0){
      int i;
      for(i=0;i<10;i++){
        if(isspace(line[i]) == 0){
@@ -192,17 +200,61 @@ int column89(char *line, int *error_cnt, FILE *cfp){
 /*
  * Author: Alexander Vansteel
  * Purpose: Check for valid Op-code
- * Inputs: char*, int*, FILE*
+ * Inputs: char*, int*, int*, FILE*
  * Outputs: int
  * Error Handling: any non-space character in the first 10 columns
  *                 an invalid Op-code
  *                 any character after Op-code
  */
-int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
-  int i;
-
-  if(isspace(line[0]))
-
+int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
+  if(isspace(line[0])){
+    int i;
+    for(i=9;i<70;i++){
+      // op char 1
+      if((i=9) && (line[i] != "D")){
+        fprintf(cfp, "%sInvalid Op-code\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 2
+      if((i=10) && (line[i] != "F")){
+        fprintf(cfp, "%sInvalid Op-code\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 3
+      if((i=11) && (line[i] != "M")){
+        fprintf(cfp, "%sInvalid Op-code\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 4
+      if((i=12) && (line[i] != "H")){
+        fprintf(cfp, "%sInvalid Op-code\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 5
+      if((i=13) && ((line[i] != "D") | (line[i] != "S"))){
+        fprintf(cfp, "%sInvalid Op-code\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 6
+      if((i=14) && ((line[i] != "D") | (line[i] != "F") | (line[i] != "I"))){
+        fprintf(cfp, "%sInvalid Op-code\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // checks for space after op code
+      if((i=15) && (isspace(line[i]) == 0)){
+        fprintf(cfp, "%sInvalid Op-code: Space expected after 6 digit Op-code.\n", line);
+        error_cnt++;
+        return 1;
+      }
+    }
+  }
+  op_code = 1;
   return 0;
 }
 
@@ -211,11 +263,20 @@ int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
  * Purpose: Checks that the Operand begins in correct column.
  * Inputs: char*, int*, FILE*
  * Outputs: int
- * Error Handling: non-space character in column earlier than 16
+ * Error Handling: checks if op-code present
+ *                 non-space character in column earlier than 16
  */
 int operand(char *line, int *error_cnt, FILE *cfp){
+  int i;
+  /* Verifies that there is no Op-code.*/
+  for(i=9;i<15;i++){
+    if(isspace(line[i]) == 0){
+      printf("%s\nCharacter found in Op-code column when none were expected.\n", line);
+      error_cnt++;
+      return 1;
+    }
+  }
   if(isspace(line[0]) != 0){
-    int i;
     for(i=0;i<70;i++){
       if((i<16) && (isspace(line[i]) == 0)){
         fprintf(cfp,"%sInvalid operand: Character in column %d is invalid./n",line,i+1);
