@@ -126,15 +126,15 @@ int label(char *line, int error_cnt, FILE *cfp){
     int i;
     // Checks that all characters in Lable are upper case.
     for(i=0;i<7;i++){
-      if(isspace(line[i])==0){
+      if(line[i] != ' '){
         if(isupper(line[i])==0){
           fprintf(cfp, "%slabel Error: All characters must beupper case.\n",line);
           error_cnt++;
           return 1;
         }
       } else { // Checks for a space in the lable
-        for(i;i<7;i++){
-          if(isspace(line[i])==0){
+        for(i+1;i<7;i++){
+          if(line[i] != ' '){
             fprintf(cfp,"%sLabel Error: There is an invalid space in the Label.\n",line);
             error_cnt++;
             return 1;
@@ -154,7 +154,7 @@ int label(char *line, int error_cnt, FILE *cfp){
   if(isspace(line[0]) != 0){
     int i;
     for(i=0;i<7;i++){
-      if(isspace(line[i]) == 0){
+      if(line[i] != ' '){
         fprintf(cfp,"%sInvalid character in Label text. Expected no characters.\n",line);
         error_cnt++;
         return 1;
@@ -172,7 +172,7 @@ int label(char *line, int error_cnt, FILE *cfp){
  * Error Handling: invalid character in column 8 or 9
  */
 int column89(char *line, int error_cnt, FILE *cfp){
-  if( (isspace(line[7]) == 0) | (isspace(line[8]) == 0)){
+  if( ((line[7] != ' ') | (line[8] != ' ')){
     fprintf(cfp,"%sInvalid character in column 8 or 9. Must be a space.\n");
     error_cnt++;
     return 1;
@@ -190,7 +190,7 @@ int column89(char *line, int error_cnt, FILE *cfp){
  */
  int end_called(char *line, int error_cnt, int end_call, FILE *cfp){
    // Verifies first 10 coloums are empty if the line does not begin with a * or label
-   if(isspace(line[0]) != 0){
+   if(line[0] == ' '){
      int i;
      for(i=0;i<10;i++){
        if(line[i] != ' '){
@@ -227,7 +227,7 @@ int illegal_op_code(char *line, int error_cnt, FILE *cfp){
     char *op2 = "DFHMDF";
     char *op3 = "DFHMSD";
 
-    if(isspace(line[9]) == 0){
+    if(line[9] != ' '){
       strncpy(line_op, &line[9], 7);
       if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
         fprintf(cfp, "%sInvalid Op-code.\n", line);
@@ -251,20 +251,10 @@ int operand(char *line, int error_cnt, FILE *cfp){
   int i;
   /* Verifies that there is no Op-code.*/
   for(i=9;i<15;i++){
-    if(isspace(line[i]) == 0){
+    if(line[i] != ' '){
       fprintf(cfp, "%sCharacter found in Op-code column when none were expected.\n", line);
       error_cnt++;
       return 1;
-    }
-  }
-  if(isspace(line[0]) != 0){
-    for(i=0;i<70;i++){
-      if((i<16) && (isspace(line[i]) == 0)){
-        fprintf(cfp,"%sInvalid operand: ",line);
-        fprintf(cfp,"Character in column %d is invalid.\n",i+1);
-        error_cnt++;
-        return 1;
-      }
     }
   }
   return 0;
