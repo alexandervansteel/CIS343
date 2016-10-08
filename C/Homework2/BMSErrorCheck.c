@@ -209,7 +209,7 @@ int column89(char *line, int *error_cnt, FILE *cfp){
 int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
   if(isspace(line[0]) | isalpha(line[0])){
     // op char 1
-    if(strcmp(line[9],"D") != 0){
+    if(line[9] != "D"){
       fprintf(cfp, "%sInvalid Op-code: Character 1.\n", line);
       error_cnt++;
       return 1;
