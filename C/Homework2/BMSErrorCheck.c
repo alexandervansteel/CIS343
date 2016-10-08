@@ -62,6 +62,7 @@ int check_file(char *file_name){
   int op_code;
   int end_call = 0;
   while(fgets(line,100,fp) != NULL){
+    op_code = 0;
     if(end_call == 1){
       int i;
       for(i=0;i<71;i++){
@@ -214,6 +215,7 @@ int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
 
     char *line_op;
     strncpy(line_op, &line[9], 7);
+    printf("%s\n", line_op);
     if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
       fprintf(cfp, "%sInvalid Op-code.\n", line);
       error_cnt++;
