@@ -6,7 +6,7 @@
 
 int check_file(char *file_name);
 int column1(char line[], int *error_cnt, FILE *cfp);
-int label_length(char line[], int *error_cnt, FILE *cfp);
+int label(char line[], int *error_cnt, FILE *cfp);
 int column89(char line[], int *error_cnt, FILE *cfp);
 int end_called(char *line, int *error_cnt, int *end_call, FILE *cfp);
 int illegal_op_code(char line[], int *error_cnt, FILE *cfp);
@@ -73,9 +73,9 @@ int check_file(char *file_name){
     int first_error = column1(line, &error_cnt, cfp);
 
     if((first_error == 0) && (end_call == 0)){
-      first_error = label_length(line, &error_cnt, cfp);
+      first_error = label(line, &error_cnt, cfp);
     }
-
+    /*
     if((first_error == 0) && (end_call == 0)){
       first_error = column89(line, &error_cnt, cfp);
     }
@@ -86,13 +86,14 @@ int check_file(char *file_name){
       first_error = illegal_op_code(line, &error_cnt, cfp);
     }
     if((first_error == 0) && (end_call == 0)){
-      //first_error = operand(line, &error_cnt, cfp);
+      first_error = operand(line, &error_cnt, cfp);
     }
+    */
     if((first_error == 0) && (end_call == 0)){
       fprintf(cfp, "%s", line);
     }
   }
-  printf("File check complete.\nErrors found: %d\n", error_cnt);
+  printf("File check complete.\nErrors found: %d\n", &error_cnt);
   return 0;
 }
 
@@ -120,7 +121,7 @@ int column1(char *line, int *error_cnt, FILE *cfp){
  * Outputs: int
  * Error Handling: label is all upper, invalid space inside label, label length
  */
-int label_length(char *line, int *error_cnt, FILE *cfp){
+int label(char *line, int *error_cnt, FILE *cfp){
   if (isalpha(line[0])){
     int i;
     // Checks that all characters in Lable are upper case.
