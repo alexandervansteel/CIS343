@@ -220,7 +220,6 @@ int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
       if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
         fprintf(cfp, "%sInvalid Op-code.\n", line);
         error_cnt++;
-        free(line_op);
         return 1;
       }
     }
@@ -269,7 +268,6 @@ int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
     }
     */
   }
-  free(line_op);
   op_code = 1;
   return 0;
 }
