@@ -22,6 +22,6 @@ LSSTDII  DFHMDF POS=(1,01),                                            X
                LENGTH=79,                                              X
                COLOR=BLUE,                                             X
                ATTRB=ASKIP
-*                                                                       
-         DFHMSD TYPE=FINAL                                           
+*
+         DFHMSD TYPE=FINAL
          END
