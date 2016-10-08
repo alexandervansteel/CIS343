@@ -185,19 +185,16 @@ int column89(char *line, int error_cnt, FILE *cfp){
  * Purpose: Checks if END has been called
  * Inputs: char*, int*, int*, FILE*
  * Outputs: int
- * Error Handling: non-space character in column earlier than 16
- *                 if END has been called
+ * Error Handling: if END has been called
  */
- int end_called(char *line, int error_cnt, int end_call, FILE *cfp){
-  char *end_string = "END";
-  char *end_line;
-  strncpy(end_line,&line[9],4);
-  end_line[3] = '\0';
-  if(strcmp(end_line,end_string) == 0){
-   end_call = 1;
+int end_called(char *line, int error_cnt, int end_call, FILE *cfp){
+  if((line[0] != '*') && (isalpha(line[0]) != 0){
+    if((line[9] == 'E') && (line[10] == 'N') && (line[11] == 'D')){
+      end_call = 1;
+    }
   }
- return 0;
- }
+  return 0;
+}
 
 /*
  * Author: Alexander Vansteel
