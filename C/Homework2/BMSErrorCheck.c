@@ -149,6 +149,15 @@ int label_length(char *line, int *error_cnt, FILE *cfp){
       return 1;
     }
   }
+  // Checks for unexpected characters in label area if no lable is present.
+  if(isspace(line[0]) != 0){
+    int i;
+    for(i=0;i<7;i++){
+      fprintf(cpf, "%sInvalid character in Label text. Expected no characters.\n",line);
+      error_cnt++;
+      return 1;
+    }
+  }
   return 0;
 }
 
@@ -208,7 +217,7 @@ int column89(char *line, int *error_cnt, FILE *cfp){
  *                 an invalid Op-code
  *                 any character after Op-code
  */
-int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
+int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
   char *line_op;
   if(isspace(line[0]) | isalpha(line[0])){
     char *op1 = "DFHMDI";
@@ -225,7 +234,6 @@ int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
       }
     }
   }
-  op_code = 1;
   return 0;
 }
 
