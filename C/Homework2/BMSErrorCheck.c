@@ -208,8 +208,20 @@ int column89(char *line, int *error_cnt, FILE *cfp){
  */
 int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
   if(isspace(line[0]) | isalpha(line[0])){
+    char *op1 = "DFHMDI ";
+    char *op2 = "DFHMDF ";
+    char *op3 = "DFHMSD ";
+
+    char *line_op;
+    memcpy(line_op, line[9], (sizeof(op1)+1));
+    if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
+      fprintf(cfp, "%sInvalid Op-code.\n", line);
+      error_cnt++;
+      return 1;
+    }
+    /*
     // op char 1
-    if(line[9] != "D"){
+    if(line[9] != op1[0]){
       fprintf(cfp, "%sInvalid Op-code: Character 1.\n", line);
       error_cnt++;
       return 1;
@@ -250,7 +262,7 @@ int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
       error_cnt++;
       return 1;
     }
-
+    */
   }
   op_code = 1;
   return 0;
