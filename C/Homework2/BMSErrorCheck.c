@@ -209,16 +209,47 @@ int column89(char *line, int error_cnt, FILE *cfp){
  *                 any character after Op-code
  */
 int illegal_op_code(char *line, int error_cnt, FILE *cfp){
-  char *line_op;
   if(line[0] != '*'){
-    char *op1 = "DFHMDI";
-    char *op2 = "DFHMDF";
-    char *op3 = "DFHMSD";
-
-    if(line[9] != ' '){
-      strncpy(line_op, &line[9], 7);
-      if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
+    if((line[9] != ' ') && (line[9] != 'E')){
+      // op char 1
+      if(line[9] != 'D'){
         fprintf(cfp, "%sInvalid Op-code.\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 2
+      if(line[10] != 'F'){
+        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 3
+      if(line[11] != 'H'){
+        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 4
+      if(line[12] != 'M'){
+        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 5
+      if((line[13] != 'D') | (line[13] != 'S')){
+        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // op char 6
+      if((line[14] != 'I') | (line[14] != 'F') | (line[14] != 'D')){
+        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        error_cnt++;
+        return 1;
+      }
+      // space after Op-code
+      if(line[15] != ' '){
+        fprintf(sfp, "%sExpected a space after Op-code.\n", line);
         error_cnt++;
         return 1;
       }
