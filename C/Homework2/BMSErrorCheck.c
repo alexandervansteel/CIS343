@@ -78,10 +78,10 @@ int check_file(char *file_name){
     if((first_error == 0) && (end_call == 0)){
       first_error = column89(line, error_cnt, cfp);
     }
-    /*
     if((first_error == 0) && (end_call == 0)){
       first_error = end_called(line, error_cnt, end_call, cfp);
     }
+    /*
     if((first_error == 0) && (end_call == 0)){
       first_error = illegal_op_code(line, error_cnt, cfp);
     }
