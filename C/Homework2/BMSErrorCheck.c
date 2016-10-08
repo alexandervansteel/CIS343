@@ -8,6 +8,7 @@ int check_file(char *file_name);
 int column1(char line[], int *error_cnt, FILE *cfp);
 int label_length(char line[], int *error_cnt, FILE *cfp);
 int column89(char line[], int *error_cnt, FILE *cfp);
+int end_called(char *line, int *error_cnt, int *end_call, FILE *cfp);
 int illegal_op_code(char line[], int *error_cnt, FILE *cfp);
 int operand(char line[], int *error_cnt, FILE *cfp);
 
@@ -57,31 +58,34 @@ int check_file(char *file_name){
     return 1;
   }
 
+  int error_cnt;
+  int end_call = 0;
   while(fgets(line,100,fp) != NULL){
-    int error_cnt;
-
     int first_error = column1(line, &error_cnt, cfp);
-    
-    if(first_error == 0){
+
+    if((first_error == 0) && (end_call == 0)){
       first_error = label_length(line, &error_cnt, cfp);
     }
-    
-    if(first_error == 0){
+
+    if(first_error == 0) && (end_call == 0)){
       first_error = column89(line, &error_cnt, cfp);
     }
+    if(first_error == 0) && (end_call == 0)){
+      first_error = end_called(line, &error_cnt, &end_call, cfp);
+    }
     /*
-    if(first_error == 0){
+    if((first_error == 0) && (end_call == 0)){
       first_error = illegal_op_code(line, &error_cnt, cfp);
     }
-    if(first_error == 0){
+    if((first_error == 0) && (end_call == 0)){
       first_error = operand(line, &error_cnt, cfp);
     }
     */
-    if(first_error == 0){
+    if((first_error == 0) && (end_call == 0)){
       fprintf(cfp, "%s", line);
     }
   }
-  printf("File check complete.");
+  printf("File check complete.\nErrors found: %d", error_cnt);
   return 0;
 }
 
@@ -130,7 +134,7 @@ int label_length(char *line, int *error_cnt, FILE *cfp){
         }
       }
     }
-    
+
     // Checks that the Label is not longer than 7 characters.
     if(isspace(line[7])==0){
       fprintf(cfp,"%sLabel error: Label exceeds maximum length of 7 characters.\n",line);
@@ -150,7 +154,7 @@ int label_length(char *line, int *error_cnt, FILE *cfp){
  */
 int column89(char *line, int *error_cnt, FILE *cfp){
   if( (isspace(line[7]) == 0) | (isspace(line[8]) == 0)){
-    fprintf(cfp,"%sInvalid character in column 8 or 9. Must be a space.\n",line);
+    fprintf(cfp,"%sInvalid character in column %d. Must be a space.\n",line,i+1);
     error_cnt++;
     return 1;
   }
@@ -159,26 +163,66 @@ int column89(char *line, int *error_cnt, FILE *cfp){
 
 /*
  * Author: Alexander Vansteel
- * Purpose:
+ * Purpose: Checks if END has been called
+ * Inputs: char*, int*, int*, FILE*
+ * Outputs: int
+ * Error Handling: non-space character in column earlier than 16
+ *                 if END has been called
+ */
+ int end_called(char *line, int *error_cnt, int *end_call, FILE *cfp){
+   // Verifies first 10 coloums are empty if the line does not begin with a * or label
+   if(isspace(line[0]) == 0){
+     int i;
+     for(i=0;i<10,i++){
+       if(isspace(line[i]) == 0){
+         fprintf(cfp,"%sInvalid character before Operand.\n",line);
+         error_cnt++;
+         return 1;
+       }
+     }
+   }
+
+   if((line[9] == "E") && (line[10] == "N") && (line[11] == "D")){
+     end_call = 1;
+   }
+
+   return 0;
+ }
+
+/*
+ * Author: Alexander Vansteel
+ * Purpose: Check for valid Op-code
  * Inputs: char*, int*, FILE*
  * Outputs: int
- * Error Handling:
+ * Error Handling: any non-space character in the first 10 columns
+ *                 an invalid Op-code
+ *                 any character after Op-code
  */
 int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s", line);
+  int i;
+
+  if(isspace(line[0]))
 
   return 0;
 }
 
 /*
  * Author: Alexander Vansteel
- * Purpose:
+ * Purpose: Checks that the Operand begins in correct column.
  * Inputs: char*, int*, FILE*
  * Outputs: int
- * Error Handling:
+ * Error Handling: non-space character in column earlier than 16
  */
 int operand(char *line, int *error_cnt, FILE *cfp){
-  //fprintf(cfp, "%s", line);
-
+  if(isspace(line[0]) != 0){
+    int i;
+    for(i=0;i<70;i++){
+      if((i<16) && (isspace(line[i]) == 0)){
+        fprintf("%sInvalid operand: Character in column %d is invalid./n",line,i+1);
+        error_cnt++;
+        return 1;
+      }
+    }
+  }
   return 0;
 }

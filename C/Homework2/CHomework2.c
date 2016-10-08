@@ -167,7 +167,7 @@ int illegal_op_code(char (*line)[500], int *error_cnt){
   * Verifies the Op-code is correct if the start of the Op-code column has a
   * character in it.
   */
-  if(isspace(line[9]) == 0){
+  if(isspace(line[0]) == 0){
     for(i=9;i<sizeof(line);i++){
       // op char 1
       if((i=9) && (strcmp(line[i],"D") != 0)){
