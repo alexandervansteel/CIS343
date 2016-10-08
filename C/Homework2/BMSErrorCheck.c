@@ -67,10 +67,10 @@ int check_file(char *file_name){
       first_error = label_length(line, &error_cnt, cfp);
     }
 
-    if(first_error == 0) && (end_call == 0)){
+    if((first_error == 0) && (end_call == 0)){
       first_error = column89(line, &error_cnt, cfp);
     }
-    if(first_error == 0) && (end_call == 0)){
+    if((first_error == 0) && (end_call == 0)){
       first_error = end_called(line, &error_cnt, &end_call, cfp);
     }
     /*
@@ -154,7 +154,7 @@ int label_length(char *line, int *error_cnt, FILE *cfp){
  */
 int column89(char *line, int *error_cnt, FILE *cfp){
   if( (isspace(line[7]) == 0) | (isspace(line[8]) == 0)){
-    fprintf(cfp,"%sInvalid character in column %d. Must be a space.\n",line,i+1);
+    fprintf(cfp,"%sInvalid character in column 8 or 9. Must be a space.\n");
     error_cnt++;
     return 1;
   }
@@ -173,7 +173,7 @@ int column89(char *line, int *error_cnt, FILE *cfp){
    // Verifies first 10 coloums are empty if the line does not begin with a * or label
    if(isspace(line[0]) == 0){
      int i;
-     for(i=0;i<10,i++){
+     for(i=0;i<10;i++){
        if(isspace(line[i]) == 0){
          fprintf(cfp,"%sInvalid character before Operand.\n",line);
          error_cnt++;
