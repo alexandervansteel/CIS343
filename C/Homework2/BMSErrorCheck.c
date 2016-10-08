@@ -92,7 +92,7 @@ int check_file(char *file_name){
       fprintf(cfp, "%s", line);
     }
   }
-  printf("File check complete.\nErrors found: %d", error_cnt);
+  printf("File check complete.\nErrors found: %d\n", error_cnt);
   return 0;
 }
 
@@ -226,7 +226,6 @@ int illegal_op_code(char *line, int *error_cnt, FILE *cfp){
 
     if(isspace(line[9]) == 0){
       strncpy(line_op, &line[9], 7);
-      printf("%s\n", line_op);
       if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
         fprintf(cfp, "%sInvalid Op-code.\n", line);
         error_cnt++;
