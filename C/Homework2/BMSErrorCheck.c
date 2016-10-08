@@ -249,7 +249,7 @@ int illegal_op_code(char *line, int error_cnt, FILE *cfp){
       }
       // space after Op-code
       if(line[15] != ' '){
-        fprintf(sfp, "%sExpected a space after Op-code.\n", line);
+        fprintf(cfp, "%sExpected a space after Op-code.\n", line);
         error_cnt++;
         return 1;
       }
