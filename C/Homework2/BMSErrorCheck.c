@@ -9,8 +9,8 @@ int column1(char line[], int error_cnt, FILE *cfp);
 int label(char line[], int error_cnt, FILE *cfp);
 int column89(char line[], int error_cnt, FILE *cfp);
 int end_called(char *line, int error_cnt, int end_call, FILE *cfp);
-int illegal_op_code(char line[], int error_cnt, FILE *cfp);
-int operand(char line[], int error_cnt, FILE *cfp);
+int illegal_op_code(char *line, int error_cnt, FILE *cfp);
+int operand(char *line, int error_cnt, FILE *cfp);
 
 /*
 * Auther: Alexander Vansteel
