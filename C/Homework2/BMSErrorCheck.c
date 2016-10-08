@@ -81,10 +81,10 @@ int check_file(char *file_name){
     if((first_error == 0) && (end_call == 0)){
       first_error = end_called(line, error_cnt, end_call, cfp);
     }
+    /*
     if((first_error == 0) && (end_call == 0)){
       first_error = illegal_op_code(line, error_cnt, cfp);
     }
-    /*
     if((first_error == 0) && (end_call == 0)){
       first_error = operand(line, error_cnt, cfp);
     }
@@ -105,7 +105,7 @@ int check_file(char *file_name){
  * Error Handling: none
  */
 int column1(char *line, int error_cnt, FILE *cfp){
-  if( (isalpha(line[0]) == 0) | (line[0] != " ") | (line[0] != "*") ){
+  if( (isalpha(line[0]) == 0) | (line[0] != ' ') | (line[0] != '*') ){
     return 0;
   } else {
     fprintf(cfp,"%sThe first column contains an error.\n",line);
