@@ -153,7 +153,7 @@ int label_length(char *line, int *error_cnt, FILE *cfp){
   if(isspace(line[0]) != 0){
     int i;
     for(i=0;i<7;i++){
-      fprintf(cpf, "%sInvalid character in Label text. Expected no characters.\n",line);
+      fprintf(cfp,"%sInvalid character in Label text. Expected no characters.\n",line);
       error_cnt++;
       return 1;
     }
