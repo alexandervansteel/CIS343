@@ -188,7 +188,7 @@ int column89(char *line, int error_cnt, FILE *cfp){
  * Error Handling: if END has been called
  */
 int end_called(char *line, int error_cnt, int end_call, FILE *cfp){
-  if((line[0] != '*') && (isalpha(line[0]) != 0){
+  if((line[0] != '*') && (isalpha(line[0]) != 0)){
     if((line[9] == 'E') && (line[10] == 'N') && (line[11] == 'D')){
       end_call = 1;
     }
