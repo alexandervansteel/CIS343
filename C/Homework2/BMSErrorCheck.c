@@ -208,14 +208,14 @@ int column89(char *line, int *error_cnt, FILE *cfp){
  *                 any character after Op-code
  */
 int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
+  char *line_op;
   if(isspace(line[0]) | isalpha(line[0])){
     char *op1 = "DFHMDI ";
     char *op2 = "DFHMDF ";
     char *op3 = "DFHMSD ";
 
     if(isspace(line[9]) == 0){
-      char *line_op;
-      strncpy(line_op, &line[9], 7);
+        strncpy(line_op, &line[9], 7);
       printf("%s\n", line_op);
       if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
         fprintf(cfp, "%sInvalid Op-code.\n", line);
