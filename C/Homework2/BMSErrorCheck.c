@@ -207,7 +207,7 @@ int column89(char *line, int *error_cnt, FILE *cfp){
  *                 any character after Op-code
  */
 int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
-  if(isspace(line[0])){
+  if(isspace(line[0]) | isalpha(line[0])){
     int i;
     for(i=9;i<70;i++){
       // op char 1
@@ -271,7 +271,7 @@ int operand(char *line, int *error_cnt, FILE *cfp){
   /* Verifies that there is no Op-code.*/
   for(i=9;i<15;i++){
     if(isspace(line[i]) == 0){
-      printf("%s\nCharacter found in Op-code column when none were expected.\n", line);
+      fprintf(cfp, "%sCharacter found in Op-code column when none were expected.\n", line);
       error_cnt++;
       return 1;
     }
