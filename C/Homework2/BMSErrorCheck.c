@@ -144,14 +144,14 @@ int label(char *line, int error_cnt, FILE *cfp){
     }
 
     // Checks that the Label is not longer than 7 characters.
-    if(isspace(line[7])==0){
+    if(line[7] != ' '){
       fprintf(cfp,"%sLabel error: Label exceeds maximum length of 7 characters.\n",line);
       error_cnt++;
       return 1;
     }
   }
   // Checks for unexpected characters in label area if no lable is present.
-  if(isspace(line[0]) != 0){
+  if(line[0] == ' '){
     int i;
     for(i=0;i<7;i++){
       if(line[i] != ' '){
@@ -189,26 +189,14 @@ int column89(char *line, int error_cnt, FILE *cfp){
  *                 if END has been called
  */
  int end_called(char *line, int error_cnt, int end_call, FILE *cfp){
-   // Verifies first 10 coloums are empty if the line does not begin with a * or label
-   if(line[0] == ' '){
-     int i;
-     for(i=0;i<10;i++){
-       if(line[i] != ' '){
-         fprintf(cfp,"%sInvalid character before Operand.\n",line);
-         error_cnt++;
-         return 1;
-       }
-     }
-   }
-   char *end_string = "END";
-   char *end_line;
-   strncpy(end_line,&line[9],4);
-   end_line[4] = '\0';
-   if(strcmp(end_line,end_string) == 0){
-     end_call = 1;
-   }
-
-   return 0;
+  char *end_string = "END";
+  char *end_line;
+  strncpy(end_line,&line[9],4);
+  end_line[3] = '\0';
+  if(strcmp(end_line,end_string) == 0){
+   end_call = 1;
+  }
+ return 0;
  }
 
 /*
