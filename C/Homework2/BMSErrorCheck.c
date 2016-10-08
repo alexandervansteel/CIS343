@@ -222,7 +222,7 @@ int column89(char *line, int error_cnt, FILE *cfp){
  */
 int illegal_op_code(char *line, int error_cnt, FILE *cfp){
   char *line_op;
-  if(isspace(line[0]) | isalpha(line[0])){
+  if(line[0] != '*'){
     char *op1 = "DFHMDI";
     char *op2 = "DFHMDF";
     char *op3 = "DFHMSD";
