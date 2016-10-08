@@ -172,7 +172,7 @@ int label(char *line, int error_cnt, FILE *cfp){
  * Error Handling: invalid character in column 8 or 9
  */
 int column89(char *line, int error_cnt, FILE *cfp){
-  if( ((line[7] != ' ') | (line[8] != ' ')){
+  if((line[7] != ' ') | (line[8] != ' ')){
     fprintf(cfp,"%sInvalid character in column 8 or 9. Must be a space.\n");
     error_cnt++;
     return 1;
