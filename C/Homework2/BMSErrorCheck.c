@@ -193,7 +193,7 @@ int column89(char *line, int error_cnt, FILE *cfp){
    if(isspace(line[0]) != 0){
      int i;
      for(i=0;i<10;i++){
-       if(isspace(line[i]) == 0){
+       if(line[i] != ' '){
          fprintf(cfp,"%sInvalid character before Operand.\n",line);
          error_cnt++;
          return 1;
