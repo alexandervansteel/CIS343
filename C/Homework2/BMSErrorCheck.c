@@ -213,13 +213,15 @@ int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
     char *op2 = "DFHMDF ";
     char *op3 = "DFHMSD ";
 
-    char *line_op;
-    strncpy(line_op, &line[9], 7);
-    printf("%s\n", line_op);
-    if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
-      fprintf(cfp, "%sInvalid Op-code.\n", line);
-      error_cnt++;
-      return 1;
+    if(isspace(line[9]) == 0){
+      char *line_op;
+      strncpy(line_op, &line[9], 7);
+      printf("%s\n", line_op);
+      if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
+        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        error_cnt++;
+        return 1;
+      }
     }
     /*
     // op char 1
