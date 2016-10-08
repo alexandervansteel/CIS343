@@ -213,7 +213,7 @@ int illegal_op_code(char *line, int *error_cnt, int *op_code, FILE *cfp){
     char *op3 = "DFHMSD ";
 
     char *line_op;
-    memcpy(line_op, line[9], (sizeof(op1)+1));
+    memcpy(line_op, &line[9], strlen(op1)+1);
     if((strcmp(line_op,op1) != 0) | (strcmp(line_op,op2) != 0) | (strcmp(line_op,op3) != 0)){
       fprintf(cfp, "%sInvalid Op-code.\n", line);
       error_cnt++;
