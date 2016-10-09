@@ -267,9 +267,6 @@ int illegal_op_code(char *line, int error_cnt, FILE *cfp){
  *                 non-space character in column earlier than 16
  */
 int operand(char *line, int error_cnt, FILE *cfp){
-  if(line[0] == '*'){
-    return 0;
-  }
   if(line[0] == ' '){
     int i;
     /* Verifies that there is no Op-code.*/
@@ -281,4 +278,5 @@ int operand(char *line, int error_cnt, FILE *cfp){
       }
     }
   }
+  return 0;
 }
