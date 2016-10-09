@@ -207,7 +207,10 @@ int end_called(char *line, int error_cnt, int end_call, FILE *cfp){
  */
 int illegal_op_code(char *line, int error_cnt, FILE *cfp){
   if(line[0] != '*'){
-    if((line[9] != ' ') | (line[9] != 'E')){
+    if(line[9] == ' '){
+      return 0;
+    }
+    if(line[9] != 'E'){
       // op char 1
       if(line[9] != 'D'){
         fprintf(cfp, "%sInvalid Op-code.\n", line);
