@@ -267,16 +267,16 @@ int illegal_op_code(char *line, int error_cnt, FILE *cfp){
  *                 non-space character in column earlier than 16
  */
 int operand(char *line, int error_cnt, FILE *cfp){
-  if(isalpha(line[0]) == 0){
-    int i;
-    /* Verifies that there is no Op-code.*/
-    for(i=9;i<15;i++){
-      if(line[i] != ' '){
-        fprintf(cfp, "%s### Character found in Op-code column when none were expected.\n", line);
-        error_cnt++;
-        return 1;
-      }
+  if((isalpha(line[0]) != 0) | (line[0] == '*')){
+    return 0;
+  }
+  int i;
+  /* Verifies that there is no Op-code.*/
+  for(i=9;i<15;i++){
+    if(line[i] != ' '){
+      fprintf(cfp, "%s### Character found in Op-code column when none were expected.\n", line);
+      error_cnt++;
+      return 1;
     }
   }
-  return 0;
 }
