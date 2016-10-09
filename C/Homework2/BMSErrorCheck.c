@@ -272,7 +272,7 @@ int operand(char *line, int error_cnt, FILE *cfp){
     /* Verifies that there is no Op-code.*/
     for(i=9;i<15;i++){
       if(line[i] != ' '){
-        fprintf(cfp, "%s### Character found in Op-code column when none were expected.\n", line);
+        fprintf(cfp, "%s### Character found in Op-code column %d when none were expected.\n", line, i+1);
         error_cnt++;
         return 1;
       }
