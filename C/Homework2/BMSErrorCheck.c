@@ -213,37 +213,37 @@ int illegal_op_code(char *line, int error_cnt, FILE *cfp){
     if(line[9] != 'E'){
       // op char 1
       if(line[9] != 'D'){
-        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        fprintf(cfp, "%sInvalid Op-code character 1.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 2
       if(line[10] != 'F'){
-        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        fprintf(cfp, "%sInvalid Op-code character 2.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 3
       if(line[11] != 'H'){
-        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        fprintf(cfp, "%sInvalid Op-code character 3.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 4
       if(line[12] != 'M'){
-        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        fprintf(cfp, "%sInvalid Op-code character 4.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 5
       if((line[13] != 'D') | (line[13] != 'S')){
-        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        fprintf(cfp, "%sInvalid Op-code character 5.\n", line);
         error_cnt++;
         return 1;
       }
       // op char 6
       if((line[14] != 'I') | (line[14] != 'F') | (line[14] != 'D')){
-        fprintf(cfp, "%sInvalid Op-code.\n", line);
+        fprintf(cfp, "%sInvalid Op-code character 6.\n", line);
         error_cnt++;
         return 1;
       }
