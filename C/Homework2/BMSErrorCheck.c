@@ -120,7 +120,7 @@ int column1(char *line, int error_cnt, FILE *cfp){
  * Error Handling: label is all upper, invalid space inside label, label length
  */
 int label(char *line, int error_cnt, FILE *cfp){
-  if (isalpha(line[0])){
+  if (isalpha(line[0]) != 0){
     int i;
     // Checks that all characters in Lable are upper case.
     for(i=0;i<7;i++){
@@ -170,10 +170,12 @@ int label(char *line, int error_cnt, FILE *cfp){
  * Error Handling: invalid character in column 8 or 9
  */
 int column89(char *line, int error_cnt, FILE *cfp){
-  if((line[7] != ' ') | (line[8] != ' ')){
-    fprintf(cfp,"%sInvalid character in column 8 or 9. Must be a space.\n");
-    error_cnt++;
-    return 1;
+  if(line[0] != '*'){
+    if((line[7] != ' ') | (line[8] != ' ')){
+      fprintf(cfp,"%sInvalid character in column 8 or 9. Must be a space.\n");
+      error_cnt++;
+      return 1;
+    }
   }
   return 0;
 }
