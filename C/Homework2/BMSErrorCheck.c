@@ -126,7 +126,7 @@ int label(char *line, int error_cnt, FILE *cfp){
     for(i=0;i<7;i++){
       if(line[i] != ' '){
         if(isupper(line[i])==0){
-          fprintf(cfp, "%slabel Error: All characters must beupper case.\n",line);
+          fprintf(cfp, "%sLabel Error: All characters must be upper case and cannot be digits.\n",line);
           error_cnt++;
           return 1;
         }
@@ -264,13 +264,15 @@ int illegal_op_code(char *line, int error_cnt, FILE *cfp){
  *                 non-space character in column earlier than 16
  */
 int operand(char *line, int error_cnt, FILE *cfp){
-  int i;
-  /* Verifies that there is no Op-code.*/
-  for(i=9;i<15;i++){
-    if(line[i] != ' '){
-      fprintf(cfp, "%sCharacter found in Op-code column when none were expected.\n", line);
-      error_cnt++;
-      return 1;
+  if(line[0] != '*'){
+    int i;
+    /* Verifies that there is no Op-code.*/
+    for(i=9;i<15;i++){
+      if(line[i] != ' '){
+        fprintf(cfp, "%sCharacter found in Op-code column when none were expected.\n", line);
+        error_cnt++;
+        return 1;
+      }
     }
   }
   return 0;
