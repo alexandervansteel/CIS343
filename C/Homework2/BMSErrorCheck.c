@@ -108,7 +108,8 @@ int column1(char *line, int error_cnt, FILE *cfp){
     return 0;
   } else {
     fprintf(cfp,"%s### The first column contains an error.\n",line);
-    return error_cnt++;
+    error_cnt++;
+    return 1;
   }
 }
 
@@ -127,13 +128,15 @@ int label(char *line, int error_cnt, FILE *cfp){
       if(line[i] != ' '){
         if(isupper(line[i])==0){
           fprintf(cfp, "%s### Label Error: All characters must be upper case and cannot be digits.\n",line);
-          return error_cnt++;
+          error_cnt++;
+          return 1;
         }
       } else { // Checks for a space in the lable
         for(i+1;i<7;i++){
           if(line[i] != ' '){
             fprintf(cfp,"%s### Label Error: There is an invalid space in the Label.\n",line);
-            return error_cnt++;;
+            error_cnt++;
+            return 1;
           }
         }
       }
@@ -142,8 +145,8 @@ int label(char *line, int error_cnt, FILE *cfp){
     // Checks that the Label is not longer than 7 characters.
     if(line[7] != ' '){
       fprintf(cfp,"%s### Label error: Label exceeds maximum length of 7 characters.\n",line);
-
-      return error_cnt++;
+      error_cnt++;
+      return 1;
     }
   }
   // Checks for unexpected characters in label area if no lable is present.
@@ -152,7 +155,8 @@ int label(char *line, int error_cnt, FILE *cfp){
     for(i=0;i<7;i++){
       if(line[i] != ' '){
         fprintf(cfp,"%s### Invalid character in Label text. Expected no characters.\n",line);
-        return error_cnt++;
+        error_cnt++;
+        return 1;
       }
     }
   }
@@ -170,7 +174,8 @@ int column89(char *line, int error_cnt, FILE *cfp){
   if(line[0] != '*'){
     if((line[7] != ' ') | (line[8] != ' ')){
       fprintf(cfp,"%s### Invalid character in column 8 or 9. Must be a space.\n");
-      return error_cnt++;
+      error_cnt++;
+      return 1;
     }
   }
   return 0;
@@ -209,37 +214,44 @@ int illegal_op_code(char *line, int error_cnt, FILE *cfp){
       // op char 1
       if(line[9] != 'D'){
         fprintf(cfp, "%s### Invalid Op-code character 1.\n", line);
-        return error_cnt++;
+        error_cnt++;
+        return 1;
       }
       // op char 2
       if(line[10] != 'F'){
         fprintf(cfp, "%s### Invalid Op-code character 2.\n", line);
-        return error_cnt++;
+        error_cnt++;
+        return 1;
       }
       // op char 3
       if(line[11] != 'H'){
         fprintf(cfp, "%s### Invalid Op-code character 3.\n", line);
-        return error_cnt++;
+        error_cnt++;
+        return 1;
       }
       // op char 4
       if(line[12] != 'M'){
         fprintf(cfp, "%s### Invalid Op-code character 4.\n", line);
-        return error_cnt++;
+        error_cnt++;
+        return 1;
       }
       // op char 5
       if((line[13] != 'D') && (line[13] != 'S')){
         fprintf(cfp, "%s### Invalid Op-code character 5.\n", line);
-        return error_cnt++;
+        error_cnt++;
+        return 1;
       }
       // op char 6
       if((line[14] != 'I') && (line[14] != 'F') && (line[14] != 'D')){
         fprintf(cfp, "%s### Invalid Op-code character 6.\n", line);
-        return error_cnt++;
+        error_cnt++;
+        return 1;
       }
       // space after Op-code
       if(line[15] != ' '){
         fprintf(cfp, "%s### Expected a space after Op-code.\n", line);
-        return error_cnt++;
+        error_cnt++;
+        return 1;
       }
     }
   }
@@ -260,7 +272,8 @@ int operand(char *line, int error_cnt, FILE *cfp){
     for(i=9;i<15;i++){
       if(line[i] != ' '){
         fprintf(cfp, "%s### Character found in Op-code column %d when none were expected.\n", line, i+1);
-        return error_cnt++;
+        error_cnt++;
+        return 1;
       }
     }
   }
