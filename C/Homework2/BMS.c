@@ -49,8 +49,7 @@ int check_file(char *file_name){
   printf("Opening requested file: %s\n", file_name);
 
   /* Creates new file to store the corrections in. */
-  char c_file[5000] = "correction_";
-  strcat(c_file, file_name);
+  char c_file[5000] = "BMSOut.txt";
   printf("Error Correction File: %s\n",c_file);
   FILE *cfp;
   if((cfp = fopen(c_file, "w")) == NULL){

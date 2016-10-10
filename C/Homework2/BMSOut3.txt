@@ -1,0 +1,58 @@
+2BCDMS1  DFHMSD TYPE=MAP,                                              X
+               LANG=COBOL,                                             X
+               MODE=INOUT,                                             X
+               TIOAPFX=YES,                                            X
+               TERM=3270-2,                                            X
+               MAPATTS=(COLOR,HILIGHT),                                X
+               STORAGE=AUTO,                                           X
+               CTRL=FREEKB
+***************************************************************
+  Only one Map in MapSet
+### Invalid character in Label text. Expected no characters.
+***************************************************************
+MAPABC12 DFHMDI SIZE=(24,80),                                          X
+### Label Error: All characters must be upper case and cannot be digits.
+               LINE=1,                                                 X
+               COLUMN=1
+***************************************************************
+*  Defining individual Fields
+*  First field is a constant
+***************************************************************
+### Invalid character in column 8 or 9. Must be a space.
+               LENGTH=08,                                              X
+               INITIAL='ABC INC.',                                     X
+               ATTRB=(BRT,PROT)
+***************************************************************
+### Invalid character in column 8 or 9. Must be a space.
+***************************************************************
+         DFHMDFFPOS=(22,10),                                           X
+### Expected a space after Op-code.
+               LENGTH=8,                                               X
+                 COLOR=BLUE,                                           X
+               ATTRB=(BRT,PROT)                                        X
+                 INITIAL='MESSAGE:'
+***************************************************************
+*  MESSAGE VARIABLE
+***************************************************************
+mESSAGE  DFHMDF POS=(22,19),                                           X
+### Label Error: All characters must be upper case and cannot be digits.
+               LENGTH=50,                                              X
+               ATTRB=PROT
+***************************************************************
+*  NOMFAIL USED TO PREVENT MAPFAILS BY INSURING THAT AT LEAST
+*   ONE BYTE OF DATA IS ALWAYS PASSED BETWEEN MAP AND PROGRAM
+*   THAT CALLS IT
+***************************************************************
+NOMFAIL  DFHMFD POS=(23,79),                                           X
+### Invalid Op-code character 5.
+             LENGTH=1,                                                 X
+### Character found in Op-code column 14 when none were expected.
+             ATTRB=(DRK,PROT,FSET),                                    X
+### Character found in Op-code column 14 when none were expected.
+             INITIAL=' '
+### Character found in Op-code column 14 when none were expected.
+***************************************************************
+* INDICATES END OF MAPSET
+***************************************************************
+         DFHMSD TYPE=FINAL
+         END
