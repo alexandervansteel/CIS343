@@ -61,7 +61,6 @@ int check_file(char *file_name){
   int error_cnt = 0;
   int end_call = 0;
   while(fgets(line,100,fp) != NULL){
-    *line = strtok(line, "\n");
     if(end_call == 1){
       int i;
       for(i=0;i<71;i++){
