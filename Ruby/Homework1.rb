@@ -16,3 +16,8 @@ end
 print "Input a Hex number to convert to Decimal: "
 u_input = gets.upcase.gsub(/\s+/,"").chomp
 u_input.hex_to_dec
+
+# The conversion will not overflow because even if the number becomes too
+# big to be held in an integer value, Ruby will automatically convert the
+# data type will just be converted from a Fixnum type of integer to a
+# Bignum type.
