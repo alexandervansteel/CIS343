@@ -53,7 +53,7 @@ class Deck
 
   ##
   # returns top card on the deck and removes it from the deck
-  def deal
+  def draw
     @cards.shift
   end
 
@@ -104,11 +104,11 @@ end
 def update_leaderboard(name, score)
   if !(File.exist? 'Leaderboard.txt') then
     lb = File.new("Leaderboard.txt", "w+")
-    lb.puts score + " " + name
+    lb.puts @score + " " + @name
     lb.close
   else
     scores = File.read('Leaderboard.txt').lines
-    scores << score + " " + name
+    scores << @score + " " + @name
     scores.sort!
     scores.pop
     File.open("Leaderboard.txt") do |f|
@@ -123,21 +123,36 @@ end
 # Outputs: returns the score
 # Error Handling:
 def calc_score(hand)
- hand.each do |card|
+ @hand.each do |card|
    score += card.value
  end
  return score
 end
 
+# Author: Alexander Vansteel
+# Purpose: Prints the first 4 cards in the hand
+# Inputs: reference to self, the array
+# Outputs: prints the first four cards
+# Error Handling:
+def show #FIXME
+  if self.size < 4 then
+    self.each do |card|
+      puts card.to_s
+    end
+  else
+    self.last(4) do |card|
+      puts card.to_s
+    end
+  end
+end
+
 ##
 # The Game of Car Solitaire
-print "Enter name: "
-name = gets.gsub(/\s+/,"").chomp
-
 display_rules
 u_input = gets.upcase.chomp
 while u_input != "X" do
   my_deck = Deck.new
+  my_deck.shuffle!
   hand = []
 
   if u_input == "D"
@@ -157,12 +172,37 @@ while u_input != "X" do
     end
   end
 
+  ##
+  # play game
   if u_input == "P" || u_input == "H"
-    # this is where the game logic will take place
+
+    until my_deck.empty? do
+      ##
+      # draws cards if fewer than 3 cards in hand
+      while hand.size < 4 do
+        hand << my_deck.draw
+      end
+      hand.show if u_input == "P" #FIXME
+
+      ##
+      # Uses case to determin if any cards should be removed from hand.
+      # Draws another card if no cards are removed.
+      case hand
+      when hand[-4].rank == hand[-1].rank
+        hand.delete_at(-4)
+        hand.delete_at(-3)
+        hand.delete_at(-2)
+        hand.delete_at(-1)
+      when hand[-4].suit == hand[-1].suit
+        hand.delete_at(-3)
+        hand.delete_at(-2)
+      else
+        hand << my_deck.draw
+      end
+    end
   end
 
   calc_score(hand)
-
   update_leaderboard(name, score)
 
   display_rules
