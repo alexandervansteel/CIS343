@@ -5,7 +5,7 @@
 # Author: Alexander Vansteel
 # Purpose: Creates class Card to be used in Deck
 # Inputs:
-# Outputs:
+# Outputs: value of the card, overload of to_s for Card object
 # Error Handling:
 class Card
   attr_accessor :rank, :suit
@@ -14,6 +14,20 @@ class Card
     @suit = suit
   end
 
+  ##
+  # returns values of the card
+  def value
+    if ["J", "Q", "K"].include? @rank then
+      return 10
+    elsif @rank == "A" then
+      return 1
+    else
+      @rank
+    end
+  end
+
+  ##
+  # overloads to_s
   def to_s
     "#{@rank} of #{@suit}"
   end
@@ -22,7 +36,7 @@ end
 # Author: Alexander Vansteel
 # Purpose: Creates a shuffled deck of cards
 # Inputs:
-# Outputs:
+# Outputs: the top card, overload of to_s for Deck
 # Error Handling:
 class Deck
   def initialize
@@ -37,18 +51,26 @@ class Deck
     end
   end
 
+  ##
+  # returns top card on the deck and removes it from the deck
   def deal
     @cards.shift
   end
 
+  ##
+  # checks if the deck is empty
   def empty?
     @cards.empty?
   end
 
+  ##
+  # shuffles the deck
   def shuffle!
     @cards.shuffle!
   end
 
+  ##
+  # overloads to_s to print the deck
   def to_s
     result = ''
     @cards.each do |card|
@@ -61,7 +83,7 @@ end
 # Author: Alexander Vansteel
 # Purpose: Displays commands to User.
 # Inputs:
-# Outputs:
+# Outputs: displays rules in terminal
 # Error Handling:
 def display_rules
   puts "Initializing Game of Car Solitaire..."
@@ -75,38 +97,73 @@ def display_rules
 end
 
 # Author: Alexander Vansteel
-# Purpose: Creates Leaderboard as a file
-# Inputs:
+# Purpose: Updates Leaderboard
+# Inputs: player name, player score
 # Outputs:
 # Error Handling:
-def create_leaderboard
-
+def update_leaderboard(name, score)
+  if !(File.exist? 'Leaderboard.txt') then
+    lb = File.new("Leaderboard.txt", "w+")
+    lb.puts score + " " + name
+    lb.close
+  else
+    scores = File.read('Leaderboard.txt').lines
+    scores << score + " " + name
+    scores.sort!
+    scores.pop
+    File.open("Leaderboard.txt") do |f|
+      f.puts(scores)
+    end
+  end
 end
 
 # Author: Alexander Vansteel
 # Purpose: Updates Leaderboard
-# Inputs:
-# Outputs:
+# Inputs: the array of cards representing the hand
+# Outputs: returns the score
 # Error Handling:
-def update_leaderboard
-
+def calc_score(hand)
+ hand.each do |card|
+   score += card.value
+ end
+ return score
 end
+
+##
+# The Game of Car Solitaire
+print "Enter name: "
+name = gets.gsub(/\s+/,"").chomp
 
 display_rules
 u_input = gets.upcase.chomp
 while u_input != "X" do
   my_deck = Deck.new
+  hand = []
+
   if u_input == "D"
     puts my_deck.to_s
   end
 
   if u_input == "L"
-    # this is where we will read and display the stupid Leaderboard file
+    puts ">> CURRENT LEADERBOARD <<"
+    if File.exist? 'Leaderboard.txt' then
+      File.open('Leaderboard.txt') do |f|
+        f.each_line do |line|
+          puts line
+        end
+      end
+    else
+      puts "There are no records of any previous games."
+    end
   end
 
   if u_input == "P" || u_input == "H"
     # this is where the game logic will take place
   end
+
+  calc_score(hand)
+
+  update_leaderboard(name, score)
 
   display_rules
   u_input = gets.upcase.chomp
