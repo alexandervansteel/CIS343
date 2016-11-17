@@ -2,6 +2,8 @@
 # Assignment: Homework 3 Car Solitaire
 # Due Date: 2016 November 18
 
+require 'date'
+
 # Author: Alexander Vansteel
 # Purpose: Creates class Card to be used in Deck
 # Inputs:
@@ -29,7 +31,7 @@ class Card
   ##
   # overloads to_s
   def to_s
-    "#{@rank} of #{@suit}"
+    "#@rank of #@suit"
   end
 end
 
@@ -105,19 +107,22 @@ def update_leaderboard(score)
   print "Please enter your name: "
   name = gets.chomp
 
-  if !(File.exist? 'Leaderboard.txt') then
-    lb = File.new("Leaderboard.txt", "w+")
-    lb.puts score.to_i + " " + name
-    lb.close
-  else
-    scores = File.read('Leaderboard.txt').lines
-    scores << score.to_i + " " + name
-    scores.sort!
-    scores.pop
-    File.open("Leaderboard.txt") do |f|
-      f.puts(scores)
-    end
+  if !File.file?("Leaderboard.txt")
+    f = File.new("Leaderboard.txt", "w+")
+    f.close
   end
+
+  scores = File.readlines("Leaderboard.txt")
+
+  scores << score.to_s + " " + name + " " + Date.today.to_s + "\n"
+
+  scores.sort!
+
+  scores.pop if scores.size > 4
+
+  f = File.new("Leaderboard.txt", "w")
+  f.puts(scores)
+  f.close
 end
 
 # Author: Alexander Vansteel
@@ -139,16 +144,21 @@ end
 # Outputs: prints the first four cards
 # Error Handling:
 def show(hand)
-  if hand.size < 4 then
+  if hand.size < 4
     hand.each do |card|
       puts card.to_s
     end
   else
-    hand.last(4) do |card|
-      puts card.to_s
-    end
+    print hand[-4].to_s + "\t" + hand[-3].to_s + " \t"
+    print hand[-2].to_s + " \t" +hand[-1].to_s + "\n"
   end
 end
+
+# result = ''
+# @cards.each do |card|
+#   result += card.to_s + "\n"
+# end
+# return result
 
 ##
 # The Game of Car Solitaire
@@ -191,23 +201,41 @@ while u_input != "X" do
       ##
       # Uses case to determin if any cards should be removed from hand.
       # Draws another card if no cards are removed.
-      case hand
-      when hand[-4].rank == hand[-1].rank
+      c1 = hand[-4]
+      c4 = hand[-1]
+      if c4 == nil
+        break
+      end
+      case !hand.empty? && !my_deck.empty?
+      when c1.rank == c4.rank
         hand.delete_at(-4)
         hand.delete_at(-3)
         hand.delete_at(-2)
         hand.delete_at(-1)
-      when hand[-4].suit == hand[-1].suit
+      when c1.suit == c4.suit
         hand.delete_at(-3)
         hand.delete_at(-2)
       else
-        show(hand) << my_deck.draw
+        hand << my_deck.draw
       end
     end
-  end
 
-  score = calc_score(hand)
-  update_leaderboard(score)
+    if hand.empty?
+      score = 0
+    else
+      score = calc_score(hand)
+    end
+    if u_input == "P"
+      puts "Your final hand: "
+      hand.each do |card|
+        puts card.to_s
+      end
+    end
+
+    puts "Your score is #{score}."
+    update_leaderboard(score)
+
+  end
 
   display_rules
   u_input = gets.upcase.chomp
