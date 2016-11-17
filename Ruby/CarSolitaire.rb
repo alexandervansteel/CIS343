@@ -22,7 +22,7 @@ class Card
     elsif @rank == "A" then
       return 1
     else
-      @rank
+      @rank.to_i
     end
   end
 
@@ -101,14 +101,17 @@ end
 # Inputs: player name, player score
 # Outputs:
 # Error Handling:
-def update_leaderboard(name, score)
+def update_leaderboard(score)
+  print "Please enter your name: "
+  name = gets.chomp
+
   if !(File.exist? 'Leaderboard.txt') then
     lb = File.new("Leaderboard.txt", "w+")
-    lb.puts @score + " " + @name
+    lb.puts score.to_i + " " + name
     lb.close
   else
     scores = File.read('Leaderboard.txt').lines
-    scores << @score + " " + @name
+    scores << score.to_i + " " + name
     scores.sort!
     scores.pop
     File.open("Leaderboard.txt") do |f|
@@ -123,10 +126,11 @@ end
 # Outputs: returns the score
 # Error Handling:
 def calc_score(hand)
- @hand.each do |card|
-   score += card.value
- end
- return score
+  score = 0
+  hand.each do |card|
+    score += card.value
+  end
+  return score.to_s
 end
 
 # Author: Alexander Vansteel
@@ -134,13 +138,13 @@ end
 # Inputs: reference to self, the array
 # Outputs: prints the first four cards
 # Error Handling:
-def show #FIXME
-  if self.size < 4 then
-    self.each do |card|
+def show(hand)
+  if hand.size < 4 then
+    hand.each do |card|
       puts card.to_s
     end
   else
-    self.last(4) do |card|
+    hand.last(4) do |card|
       puts card.to_s
     end
   end
@@ -153,7 +157,6 @@ u_input = gets.upcase.chomp
 while u_input != "X" do
   my_deck = Deck.new
   my_deck.shuffle!
-  hand = []
 
   if u_input == "D"
     puts my_deck.to_s
@@ -174,15 +177,16 @@ while u_input != "X" do
 
   ##
   # play game
-  if u_input == "P" || u_input == "H"
-
+  if ["P", "H"].include? u_input then
+    puts "Initializing Game..."
+    hand = []
     until my_deck.empty? do
       ##
       # draws cards if fewer than 3 cards in hand
       while hand.size < 4 do
         hand << my_deck.draw
       end
-      hand.show if u_input == "P" #FIXME
+      show(hand) if u_input == "P"
 
       ##
       # Uses case to determin if any cards should be removed from hand.
@@ -197,13 +201,13 @@ while u_input != "X" do
         hand.delete_at(-3)
         hand.delete_at(-2)
       else
-        hand << my_deck.draw
+        show(hand) << my_deck.draw
       end
     end
   end
 
-  calc_score(hand)
-  update_leaderboard(name, score)
+  score = calc_score(hand)
+  update_leaderboard(score)
 
   display_rules
   u_input = gets.upcase.chomp
