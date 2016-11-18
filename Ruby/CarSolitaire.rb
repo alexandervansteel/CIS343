@@ -116,7 +116,7 @@ def update_leaderboard(score)
 
   scores << score.to_s + " " + name + " " + Date.today.to_s + "\n"
 
-  scores.sort!
+  scores.sort_by {|i| i.split(" ").map(&:to_i).reverse}
 
   scores.pop if scores.size > 4
 
