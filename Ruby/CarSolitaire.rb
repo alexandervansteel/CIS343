@@ -107,22 +107,17 @@ def update_leaderboard(score)
   print "Please enter your name: "
   name = gets.chomp
 
-  if !File.file?("Leaderboard.txt")
-    f = File.new("Leaderboard.txt", "w+")
+  if File.file?("Leaderboard.txt")
+    scores = File.readlines("Leaderboard.txt")
+    scores << score.to_s + " " + name + " " + Date.today.to_s + "\n"
+    scores.sort_by { |x| x[/\d+/].to_i }
+    scores.pop if scores.size > 4
+    File.open("Leaderboard.txt", "w") { |file| file.puts(scores)}
+  else
+    f = File.new("Leaderboard.txt", "w")
+    f.puts score.to_s + " " + name + " " + Date.today.to_s + "\n"
     f.close
   end
-
-  scores = File.readlines("Leaderboard.txt")
-
-  scores << score.to_s + " " + name + " " + Date.today.to_s + "\n"
-
-  scores.sort_by {|i| i.split(" ").map(&:to_i).reverse}
-
-  scores.pop if scores.size > 4
-
-  f = File.new("Leaderboard.txt", "w")
-  f.puts(scores)
-  f.close
 end
 
 # Author: Alexander Vansteel
